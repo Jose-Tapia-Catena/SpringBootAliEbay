@@ -4,6 +4,9 @@
  */
 package es.taw.aliebay.entity;
 
+import es.taw.aliebay.dto.AdministradorDTO;
+import es.taw.aliebay.dto.UsuarioDTO;
+
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -84,5 +87,10 @@ public class Administrador implements Serializable {
     public String toString() {
         return "a.entity.Administrador[ idUsuario=" + idUsuario + " ]";
     }
-    
+
+    public AdministradorDTO toDTO(){
+        AdministradorDTO dto = new AdministradorDTO();
+        dto.setUsuario(this.getUsuario().toDTO());
+        return dto;
+    }
 }

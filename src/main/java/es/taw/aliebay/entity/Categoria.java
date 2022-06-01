@@ -4,6 +4,8 @@
  */
 package es.taw.aliebay.entity;
 
+import es.taw.aliebay.dto.CategoriaDTO;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -85,5 +87,11 @@ public class Categoria implements Serializable {
     public String toString() {
         return "a.entity.Categoria[ idCategoria=" + idCategoria + " ]";
     }
-    
+
+    public CategoriaDTO toDTO(){
+        CategoriaDTO dto = new CategoriaDTO();
+        dto.setIdCategoria(this.idCategoria);
+        return dto;
+    }
+
 }

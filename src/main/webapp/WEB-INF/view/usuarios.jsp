@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List"%>
-<%@ page import="es.taw.aliebay.entity.Usuario" %>
+<%@ page import="es.taw.aliebay.dto.UsuarioDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +20,7 @@
 
 
 <%
-    List<Usuario> usuarios = (List)request.getAttribute("usuarios");
+    List<UsuarioDTO> usuarios = (List)request.getAttribute("usuarios");
     if (usuarios == null || usuarios.isEmpty() ) {
 %>
 <h2>No hay usuarios</h2>
@@ -37,7 +37,7 @@
         <th>DISCOUNTCODE</th>--%>
     </tr>
     <%
-        for (Usuario usuario: usuarios) {
+        for (UsuarioDTO usuario: usuarios) {
     %>
     <tr>
         <td><%= usuario.getNombre() + " " + usuario.getApellidos()  %></td>

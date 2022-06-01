@@ -4,6 +4,8 @@
  */
 package es.taw.aliebay.entity;
 
+import es.taw.aliebay.dto.UsuarioDTO;
+
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -212,5 +214,18 @@ public class Usuario implements Serializable {
     public String toString() {
         return "a.entity.Usuario[ idUsuario=" + idUsuario + " ]";
     }
-    
+
+    public UsuarioDTO toDTO() {
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setNombre(this.nombre);
+        dto.setApellidos(this.apellidos);
+        dto.setIdUsuario(this.idUsuario);
+        dto.setDomicilio(this.domicilio);
+        dto.setEdad(this.edad);
+        dto.setSexo(this.sexo);
+        dto.setCiudadResidencia(this.ciudadResidencia);
+        dto.setUserName(this.userName);
+        dto.setUserName(this.password);
+        return dto;
+    }
 }
