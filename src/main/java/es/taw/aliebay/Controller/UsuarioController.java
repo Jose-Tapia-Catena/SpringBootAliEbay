@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
-public class UsuarioController {
+public class UsuarioController{
 
     @Autowired
     private UsuarioService usuarioService;

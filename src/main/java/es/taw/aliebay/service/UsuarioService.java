@@ -38,4 +38,9 @@ public class UsuarioService {
         }
         return listaDTO;
     }
+
+    public UsuarioDTO findUserByUserNameAndPassword(String userName,String password){
+        Usuario usuario = this.usuarioRepository.findUsuarioByUserAndPassword(userName,password);
+        return usuario==null?null:usuario.toDTO();
+    }
 }
