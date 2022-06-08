@@ -18,7 +18,6 @@
 
 <h1>Listado de clientes</h1>
 
-
 <%
     List<UsuarioDTO> usuarios = (List)request.getAttribute("usuarios");
     if (usuarios == null || usuarios.isEmpty() ) {

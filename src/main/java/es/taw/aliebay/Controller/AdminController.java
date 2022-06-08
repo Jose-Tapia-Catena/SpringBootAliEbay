@@ -1,8 +1,8 @@
 package es.taw.aliebay.Controller;
 
-import es.taw.aliebay.dao.AdministradorRepository;
-import es.taw.aliebay.entity.Administrador;
-import es.taw.aliebay.service.AdministradorService;
+
+import es.taw.aliebay.dto.CompradorDTO;
+import es.taw.aliebay.service.CompradorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,13 +13,23 @@ import java.util.List;
 @Controller
 public class AdminController {
 
-    private AdministradorService administradorService;
+    public CompradorService getCompradorService() {
+        return compradorService;
+    }
+    @Autowired
+    public void setCompradorService(CompradorService compradorService) {
+        this.compradorService = compradorService;
+    }
 
-/*    @GetMapping("/")
+    private CompradorService compradorService;
+
+    @GetMapping("/administrador/")
     public String doInit (Model model){
-        List<Administrador> administradorList = this.administradorRepository.findAll();
-        model.addAttribute("admin", administradorList);
-        return "usuarios";
-    }*/
+        List<CompradorDTO> compradorList = this.compradorService.listarCompradores();
+        model.addAttribute("compradores", compradorList);
+        model.addAttribute("vendedores", compradorList);
+        model.addAttribute("marketings", compradorList);
+        return "admin";
+    }
 
 }

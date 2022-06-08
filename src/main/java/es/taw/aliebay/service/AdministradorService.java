@@ -5,10 +5,12 @@ import es.taw.aliebay.dao.AdministradorRepository;
 import es.taw.aliebay.dto.AdministradorDTO;
 import es.taw.aliebay.entity.Administrador;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class AdministradorService {
     public AdministradorRepository getAdministradorRepository() {
         return administradorRepository;

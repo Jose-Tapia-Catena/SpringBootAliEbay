@@ -22,7 +22,7 @@ public class UsuarioService {
 
     private UsuarioRepository usuarioRepository;
 
-    public List<UsuarioDTO> listarUsuario(){
+    public List<UsuarioDTO> listarUsuarios(){
         List<Usuario> usuarios = usuarioRepository.findAll();
 
         return this.listaEntityADTO(usuarios);

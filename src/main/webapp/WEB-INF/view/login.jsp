@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: felip
@@ -23,22 +24,13 @@
 <%
     }
 %>
-<form id = "form" method="POST" action="LoginServlet">
-    <table>
-        <tr>
-            <td>Usuario:</td>
-            <td><input type="text" name="usuario" value="" /></td>
-        </tr>
-        <tr>
-            <td>Contraseña:</td>
-            <td><input type="password" name="clave" value=""/></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Enviar"/></td>
-        </tr>
-    </table>
-    <br/>
-    ¿No tienes una cuenta? <a href="UsuarioNuevoEditarServlet">No le des, no está hecho</a>
+<%--@elvariable id="usuario" type="es.taw.aliebay.dto.UsuarioDTO"--%>
+<form:form method="post" action="/autentica/" modelAttribute="usuario">
+    Usuario: <form:input path="userName" type="text"/><br>
+    Contraseña: <form:password path="password" /> <br>
+    <form:button>Enviar</form:button>
+</form:form>
+    ¿No tienes una cuenta? <a href="">No le des, no está hecho</a>
 </form>
 </body>
 </html>
