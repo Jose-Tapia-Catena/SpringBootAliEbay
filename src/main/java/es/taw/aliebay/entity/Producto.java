@@ -4,7 +4,13 @@
  */
 package es.taw.aliebay.entity;
 
+import es.taw.aliebay.dto.CategoriaDTO;
+import es.taw.aliebay.dto.ProductoDTO;
+import es.taw.aliebay.dto.VendedorDTO;
+import es.taw.aliebay.dto.VentaDTO;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -227,5 +233,24 @@ public class Producto implements Serializable {
     public String toString() {
         return "a.entity.Producto[ idProducto=" + idProducto + " ]";
     }
-    
+
+    public ProductoDTO toDTO() {
+        ProductoDTO dto = new ProductoDTO();
+        dto.setIdProducto(this.idProducto);
+        dto.setTitulo(this.titulo);
+        dto.setDescripcion(this.descripcion);
+        dto.setPrecioSalida(this.precioSalida);
+        dto.setuRLFoto(this.uRLFoto);
+        dto.setCategoria(this.categoria.getIdCategoria());
+        dto.setVendedor(this.idVendedor.getIdUsuario());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dto.setFechaSalida(sdf.format(this.fechaSalida));
+        dto.setFechaFin(sdf.format(this.fechaFin));
+
+        if(this.venta != null)
+            dto.setVenta(this.venta.toDTO());
+
+        return dto;
+    }
 }

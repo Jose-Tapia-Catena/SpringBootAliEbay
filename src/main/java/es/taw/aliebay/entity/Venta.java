@@ -4,7 +4,11 @@
  */
 package es.taw.aliebay.entity;
 
+import es.taw.aliebay.dto.CompradorDTO;
+import es.taw.aliebay.dto.VentaDTO;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -123,5 +127,15 @@ public class Venta implements Serializable {
     public String toString() {
         return "a.entity.Venta[ idProducto=" + idProducto + " ]";
     }
-    
+
+    public VentaDTO toDTO() {
+        VentaDTO dto = new VentaDTO();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dto.setFecha(sdf.format(this.fecha));
+        dto.setComprador(this.getIdComprador().getIdUsuario());
+        dto.setPrecioVenta(this.precioVenta);
+
+        return dto;
+    }
 }

@@ -11,11 +11,11 @@ public class VentaDTO {
         this.idProducto = idProducto;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -27,25 +27,16 @@ public class VentaDTO {
         this.precioVenta = precioVenta;
     }
 
-    public CompradorDTO getComprador() {
+    public Integer getComprador() {
         return comprador;
     }
 
-    public void setComprador(CompradorDTO comprador) {
+    public void setComprador(Integer comprador) {
         this.comprador = comprador;
     }
 
-    public ProductoDTO getProducto() {
-        return producto;
-    }
-
-    public void setProducto(ProductoDTO producto) {
-        this.producto = producto;
-    }
-
     private Integer idProducto;
-    private Date fecha;
+    private String fecha;
     private Float precioVenta;
-    private CompradorDTO comprador;
-    private ProductoDTO producto;
+    private Integer comprador;
 }

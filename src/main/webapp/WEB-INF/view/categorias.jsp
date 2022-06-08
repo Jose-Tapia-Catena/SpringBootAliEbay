@@ -33,7 +33,7 @@
     <tr>
         <td><%= c.getIdCategoria() %></td>
         <td><a href="/administrador/categorias/borrar/<%=c.getIdCategoria()%>/">Borrar</a></td>
-        <td><a href="">Mostrar Productos</a></td>
+        <td><a href="/administrador/categorias/<%=c.getIdCategoria()%>/productos/">Mostrar Productos</a></td>
     </tr>
 
     <%

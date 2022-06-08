@@ -46,36 +46,20 @@ public class ProductoDTO {
         this.uRLFoto = uRLFoto;
     }
 
-    public Date getFechaSalida() {
+    public String getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(Date fechaSalida) {
+    public void setFechaSalida(String fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 
-    public Date getFechaFin() {
+    public String getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    public List<CompradorDTO> getCompradorList() {
-        return compradorList;
-    }
-
-    public void setCompradorList(List<CompradorDTO> compradorList) {
-        this.compradorList = compradorList;
-    }
-
-    public List<MensajeDTO> getMensajeList() {
-        return mensajeList;
-    }
-
-    public void setMensajeList(List<MensajeDTO> mensajeList) {
-        this.mensajeList = mensajeList;
     }
 
     public VentaDTO getVenta() {
@@ -86,27 +70,20 @@ public class ProductoDTO {
         this.venta = venta;
     }
 
-    public List<PujaDTO> getPujaList() {
-        return pujaList;
-    }
 
-    public void setPujaList(List<PujaDTO> pujaList) {
-        this.pujaList = pujaList;
-    }
-
-    public CategoriaDTO getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(CategoriaDTO categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
-    public VendedorDTO getVendedor() {
+    public Integer getVendedor() {
         return vendedor;
     }
 
-    public void setVendedor(VendedorDTO vendedor) {
+    public void setVendedor(Integer vendedor) {
         this.vendedor = vendedor;
     }
 
@@ -115,12 +92,9 @@ public class ProductoDTO {
     private String descripcion;
     private float precioSalida;
     private String uRLFoto;
-    private Date fechaSalida;
-    private Date fechaFin;
-    private List<CompradorDTO> compradorList;
-    private List<MensajeDTO> mensajeList;
+    private String fechaSalida;
+    private String fechaFin;
     private VentaDTO venta;
-    private List<PujaDTO> pujaList;
-    private CategoriaDTO categoria;
-    private VendedorDTO vendedor;
+    private String categoria;
+    private Integer vendedor;
 }
