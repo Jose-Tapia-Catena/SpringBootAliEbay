@@ -225,7 +225,7 @@ public class Usuario implements Serializable {
         dto.setSexo(this.sexo);
         dto.setCiudadResidencia(this.ciudadResidencia);
         dto.setUserName(this.userName);
-        dto.setUserName(this.password);
+        dto.setPassword(this.password);
         if(this.comprador != null)
             dto.setTipoUsuario("comprador");
         else if(this.vendedor != null)

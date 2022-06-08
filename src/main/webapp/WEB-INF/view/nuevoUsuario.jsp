@@ -14,11 +14,12 @@
 </head>
 <body>
   <%
-    String tipoUsuario  = (String)request.getAttribute("tipoUsuario");
+    UsuarioDTO u = (UsuarioDTO) request.getAttribute("usuario");
   %>
   <h1>Datos usuario</h1>
   <%--@elvariable id="usuario" type="es.taw.aliebay.dto.UsuarioDTO"--%>
   <form:form method="post" action="/administrador/usuario/guardar/" modelAttribute="usuario">
+    <form:hidden path="idUsuario"/>
     <table>
       <tr>
         <td>Nombre:</td>
@@ -49,8 +50,9 @@
       </tr>
 
       <%
-        if(tipoUsuario == null){
+        if(u.getTipoUsuario() == null){
       %>
+      <form:hidden path="login" value="1"/>
       <tr>
         <td>Tipo Usuario:</td>
         <td>
@@ -61,7 +63,7 @@
       <%
       }else{
       %>
-      <form:hidden path="tipoUsuario" value="<%=tipoUsuario%>"/>
+      <form:hidden path="tipoUsuario" value="<%=u.getTipoUsuario()%>"/>
       <%
         }
       %>
@@ -75,7 +77,7 @@
       </tr>
 
       <tr>
-        <td><form:button>Crear</form:button></td>
+        <td><form:button>Enviar</form:button></td>
       </tr>
     </table>
   </form:form>

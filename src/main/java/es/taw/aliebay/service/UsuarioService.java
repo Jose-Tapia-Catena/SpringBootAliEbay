@@ -79,7 +79,7 @@ public class UsuarioService {
         return usuario==null?null:usuario.toDTO();
     }
 
-    public UsuarioDTO crearUsuario(UsuarioDTO usuario) {
+    public void crearUsuario(UsuarioDTO usuario) {
         Usuario user = new Usuario();
         user.setNombre(usuario.getNombre());
         user.setApellidos(usuario.getApellidos());
@@ -113,7 +113,29 @@ public class UsuarioService {
                 usuarioRepository.save(user);
                 break;
         }
+    }
 
-        return user.toDTO();
+    public void modificarUsuario(UsuarioDTO usuario) {
+        Usuario user = new Usuario();
+        user.setIdUsuario(usuario.getIdUsuario());
+        user.setNombre(usuario.getNombre());
+        user.setApellidos(usuario.getApellidos());
+        user.setUserName(usuario.getUserName());
+        user.setDomicilio(usuario.getDomicilio());
+        user.setCiudadResidencia(usuario.getCiudadResidencia());
+        user.setEdad(usuario.getEdad());
+        user.setSexo(usuario.getSexo());
+        user.setPassword(usuario.getPassword());
+
+        usuarioRepository.save(user);
+    }
+    public void borrarUsuario(Integer idUsuario) {
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        usuarioRepository.delete(usuario);
+    }
+
+    public UsuarioDTO buscarUsuario(Integer idUsuario) {
+        Usuario u = usuarioRepository.findById(idUsuario).orElse(null);
+        return u.toDTO();
     }
 }

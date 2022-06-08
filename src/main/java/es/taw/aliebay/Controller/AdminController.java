@@ -188,10 +188,38 @@ public class AdminController {
         return "nuevoUsuario";
     }
 
+    @GetMapping("/administrador/usuario/crear/")
+    public String doCrearUsuario( Model model){
+        UsuarioDTO u = new UsuarioDTO();
+        model.addAttribute("usuario", u);
+        return "nuevoUsuario";
+    }
+
+    @GetMapping("/administrador/usuario/{idUsuario}/editar/")
+    public String doEditarUsuario(@PathVariable("idUsuario") Integer idUsuario, Model model){
+        UsuarioDTO u = usuarioService.buscarUsuario(idUsuario);
+        model.addAttribute("usuario", u);
+        return "nuevoUsuario";
+    }
+
 
     @PostMapping("/administrador/usuario/guardar/")
     public String doGuardarUsuario(@ModelAttribute("usuario") UsuarioDTO usuario, Model model){
-        UsuarioDTO u = usuarioService.crearUsuario(usuario);
+        if(usuario.getIdUsuario() != null){
+            usuarioService.modificarUsuario(usuario);
+        }else{
+            usuarioService.crearUsuario(usuario);
+        }
+
+        if(usuario.isLogin())
+            return "redirect:/";
+        else
+            return "redirect:/administrador/";
+    }
+
+    @GetMapping("/administrador/usuario/borrar/{idUsuario}")
+    public String doBorrarUsuario(@PathVariable("idUsuario") Integer idUsuario){
+        usuarioService.borrarUsuario(idUsuario);
         return "redirect:/administrador/";
     }
 }

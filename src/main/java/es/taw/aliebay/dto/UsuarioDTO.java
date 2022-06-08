@@ -84,6 +84,15 @@ public class UsuarioDTO {
     private String password;
     private String tipoUsuario;
 
+    public boolean isLogin() {
+        return login;
+    }
+
+    public void setLogin(boolean login) {
+        this.login = login;
+    }
+
+    private boolean login;
     public String getTipoUsuario() {
         return tipoUsuario;
     }

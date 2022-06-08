@@ -49,8 +49,8 @@
         <td><%= u.getCiudadResidencia()%></td>
         <td><%= u.getEdad()%></td>
         <td><%= u.getSexo()%></td>
-        <td><a href="">Borrar</a></td>
-        <td><a href="">Editar</a></td>
+        <td><a href="/administrador/usuario/borrar/<%=u.getIdUsuario()%>/">Borrar</a></td>
+        <td><a href="/administrador/usuario/<%=u.getIdUsuario()%>/editar/">Editar</a></td>
         <td><a href="">Productos</a></td>
     </tr>
 
@@ -87,8 +87,8 @@
         <td><%= u.getCiudadResidencia()%></td>
         <td><%= u.getEdad()%></td>
         <td><%= u.getSexo()%></td>
-        <td><a href="">Borrar</a></td>
-        <td><a href="">Editar</a></td>
+        <td><a href="/administrador/usuario/borrar/<%=u.getIdUsuario()%>/">Borrar</a></td>
+        <td><a href="/administrador/usuario/<%=u.getIdUsuario()%>/editar/">Editar</a></td>
         <td><a href="/administrador/vendedor/<%=u.getIdUsuario()%>/productos/">Productos</a></td>
     </tr>
 
@@ -98,7 +98,7 @@
 </table>
 <a href="/administrador/usuario/vendedor/crear/">Crear Nuevo Vendedor</a><br/>
 <h2>Marketing: </h2>
-<table border="1" width="80%">
+<table border="1" width="70%">
     <tr>
         <th>ID</th>
         <th>Nombre</th>
@@ -123,8 +123,8 @@
         <td><%= u.getCiudadResidencia()%></td>
         <td><%= u.getEdad()%></td>
         <td><%= u.getSexo()%></td>
-        <td><a href="">Borrar</a></td>
-        <td><a href="">Editar</a></td>
+        <td><a href="/administrador/usuario/borrar/<%=u.getIdUsuario()%>/">Borrar</a></td>
+        <td><a href="/administrador/usuario/<%=u.getIdUsuario()%>/editar/">Editar</a></td>
     </tr>
 
     <%
