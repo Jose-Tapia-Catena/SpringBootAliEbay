@@ -4,6 +4,9 @@
  */
 package es.taw.aliebay.entity;
 
+import es.taw.aliebay.dto.CompradorDTO;
+import es.taw.aliebay.dto.VendedorDTO;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -100,5 +103,10 @@ public class Vendedor implements Serializable {
     public String toString() {
         return "a.entity.Vendedor[ idUsuario=" + idUsuario + " ]";
     }
-    
+
+    public VendedorDTO toDTO() {
+        VendedorDTO dto = new VendedorDTO();
+        dto.setUsuario(this.getUsuario().toDTO());
+        return dto;
+    }
 }

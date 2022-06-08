@@ -4,9 +4,7 @@ package es.taw.aliebay.Controller;
 import es.taw.aliebay.dto.CategoriaDTO;
 import es.taw.aliebay.dto.CompradorDTO;
 import es.taw.aliebay.dto.ProductoDTO;
-import es.taw.aliebay.service.CategoriaService;
-import es.taw.aliebay.service.CompradorService;
-import es.taw.aliebay.service.ProductoService;
+import es.taw.aliebay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -31,6 +29,26 @@ public class AdminController {
     }
     private CompradorService compradorService;
 
+    public MarketingService getMarketingService() {
+        return marketingService;
+    }
+    @Autowired
+    public void setMarketingService(MarketingService marketingService) {
+        this.marketingService = marketingService;
+    }
+
+    private MarketingService marketingService;
+
+    public VendedorService getVendedorService() {
+        return vendedorService;
+    }
+    @Autowired
+    public void setVendedorService(VendedorService vendedorService) {
+        this.vendedorService = vendedorService;
+    }
+
+    private VendedorService vendedorService;
+
     public CategoriaService getCategoriaService() {
         return categoriaService;
     }
@@ -40,21 +58,16 @@ public class AdminController {
     }
     private CategoriaService categoriaService;
 
-    public ProductoService getProductoService() {
-        return productoService;
-    }
+    public ProductoService getProductoService() { return productoService;}
     @Autowired
-    public void setProductoService(ProductoService productoService) {
-        this.productoService = productoService;
-    }
-
+    public void setProductoService(ProductoService productoService) { this.productoService = productoService;}
     private ProductoService productoService;
+
     @GetMapping("/administrador/")
     public String doInit (Model model){
-        List<CompradorDTO> compradorList = this.compradorService.listarCompradores();
-        model.addAttribute("compradores", compradorList);
-        model.addAttribute("vendedores", compradorList);
-        model.addAttribute("marketings", compradorList);
+        model.addAttribute("compradores", this.compradorService.listarCompradores());
+        model.addAttribute("vendedores", this.vendedorService.listarVendedores());
+        model.addAttribute("marketings", this.marketingService.listarMarketings());
         return "admin";
     }
 
@@ -116,6 +129,43 @@ public class AdminController {
         model.addAttribute("productosNoVendidos", productosNoVendidos);
         model.addAttribute("productosNoVendidosTerminados", productosNoVendidosTerminados);
         model.addAttribute("categoria",idCategoria);
+
+        return "productos";
+    }
+
+    @GetMapping("/administrador/vendedor/{idVendedor}/productos/")
+    public String doVerProductosVendedor(@PathVariable("idVendedor") Integer idVendedor, Model model){
+
+        List<ProductoDTO> productos = productoService.listarProductosVendedor(idVendedor);
+
+        List<ProductoDTO> productosVendidos = new ArrayList<>();
+        List<ProductoDTO> productosNoVendidos  = new ArrayList<>();
+        List<ProductoDTO> productosNoVendidosTerminados  = new ArrayList<>();
+
+        SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+        for(ProductoDTO p:productos){
+            if(p.getVenta() == null){
+                Date date = new Date();
+                try{
+                    Date fin = sdf.parse(p.getFechaFin());
+                    if(date.before(fin)){
+                        productosNoVendidos.add(p);
+                    }else{
+                        productosNoVendidosTerminados.add(p);
+                    }
+                }catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                productosVendidos.add(p);
+            }
+        }
+
+        model.addAttribute("productosVendidos", productosVendidos);
+        model.addAttribute("productosNoVendidos", productosNoVendidos);
+        model.addAttribute("productosNoVendidosTerminados", productosNoVendidosTerminados);
+        model.addAttribute("vendedor",idVendedor);
 
         return "productos";
     }

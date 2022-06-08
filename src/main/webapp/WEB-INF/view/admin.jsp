@@ -10,6 +10,7 @@
 <%@ page import="es.taw.aliebay.dto.UsuarioDTO" %>
 <%@ page import="es.taw.aliebay.dto.CompradorDTO" %>
 <%@ page import="es.taw.aliebay.dto.VendedorDTO" %>
+<%@ page import="es.taw.aliebay.dto.MarketingDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,8 +75,8 @@
         <th></th><!-- Productos -->
     </tr>
     <%
-        List<CompradorDTO> vendedores = (List)request.getAttribute("vendedores");
-        for (CompradorDTO v: vendedores) {
+        List<VendedorDTO> vendedores = (List)request.getAttribute("vendedores");
+        for (VendedorDTO v: vendedores) {
             UsuarioDTO u = v.getUsuario();
     %>
     <tr>
@@ -88,7 +89,7 @@
         <td><%= u.getSexo()%></td>
         <td><a href="">Borrar</a></td>
         <td><a href="">Editar</a></td>
-        <td><a href="">Productos</a></td>
+        <td><a href="/administrador/vendedor/<%=u.getIdUsuario()%>/productos/">Productos</a></td>
     </tr>
 
     <%
@@ -110,8 +111,8 @@
         <th></th><!-- Editar -->
     </tr>
     <%
-        List<CompradorDTO> marketings = (List)request.getAttribute("marketings");
-        for (CompradorDTO m: marketings) {
+        List<MarketingDTO> marketings = (List)request.getAttribute("marketings");
+        for (MarketingDTO m: marketings) {
             UsuarioDTO u = m.getUsuario();
     %>
     <tr>

@@ -2,11 +2,13 @@ package es.taw.aliebay.service;
 
 import es.taw.aliebay.dao.CategoriaRepository;
 import es.taw.aliebay.dao.ProductoRepository;
+import es.taw.aliebay.dao.VendedorRepository;
 import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.dto.UsuarioDTO;
 import es.taw.aliebay.entity.Categoria;
 import es.taw.aliebay.entity.Producto;
 import es.taw.aliebay.entity.Usuario;
+import es.taw.aliebay.entity.Vendedor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +37,18 @@ public class ProductoService {
         this.categoriaRepository = categoriaRepository;
     }
 
+    public VendedorRepository getVendedorRepository() {
+        return vendedorRepository;
+    }
+    @Autowired
+    public void setVendedorRepository(VendedorRepository vendedorRepository) {
+        this.vendedorRepository = vendedorRepository;
+    }
+
+    private VendedorRepository vendedorRepository;
+
     public List<ProductoDTO> listarProductos(){
         List<Producto> productos = productoRepository.findAll();
-
         return this.listaEntityADTO(productos);
     }
 
@@ -56,5 +67,11 @@ public class ProductoService {
             }
         }
         return listaDTO;
+    }
+
+    public List<ProductoDTO> listarProductosVendedor(Integer idVendedor) {
+        Vendedor vendedor = vendedorRepository.findById(idVendedor).orElse(null);
+        List<Producto> productos = productoRepository.findAllVendedor(vendedor);
+        return this.listaEntityADTO(productos);
     }
 }

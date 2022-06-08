@@ -26,10 +26,12 @@
     List<ProductoDTO> productosNoVendidosTerminados = (List)request.getAttribute("productosNoVendidosTerminados");
 
     String categoria = (String)request.getAttribute("categoria");
-
+    Integer vendedor = (Integer) request.getAttribute("vendedor");
     String llamada = "este usuario";
     if(categoria != null){
         llamada = "categoria " + categoria;
+    }else if(vendedor != null){
+        llamada = "el vendedor con id " + vendedor;
     }
 
     if(productosVendidos.isEmpty() && productosNoVendidos.isEmpty() && productosNoVendidosTerminados.isEmpty()){
@@ -37,9 +39,9 @@
 <h2> No existen productos para <%=llamada%></h2>
 <%
 }else{
-    if(categoria != null){
+    if(categoria != null || vendedor != null){
 %>
-<h2> Productos para categoria <%=categoria %>: </h2>
+<h2> Productos para <%=llamada %>: </h2>
 <%
     } if(!productosNoVendidos.isEmpty()){
 %>

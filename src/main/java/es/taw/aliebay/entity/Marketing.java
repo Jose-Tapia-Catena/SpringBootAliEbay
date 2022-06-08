@@ -4,6 +4,9 @@
  */
 package es.taw.aliebay.entity;
 
+import es.taw.aliebay.dto.MarketingDTO;
+import es.taw.aliebay.dto.VendedorDTO;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -100,5 +103,10 @@ public class Marketing implements Serializable {
     public String toString() {
         return "a.entity.Marketing[ idUsuario=" + idUsuario + " ]";
     }
-    
+
+    public MarketingDTO toDTO() {
+        MarketingDTO dto = new MarketingDTO();
+        dto.setUsuario(this.getUsuario().toDTO());
+        return dto;
+    }
 }
