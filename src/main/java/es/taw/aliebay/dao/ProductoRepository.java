@@ -1,6 +1,7 @@
 package es.taw.aliebay.dao;
 
 import es.taw.aliebay.entity.Categoria;
+import es.taw.aliebay.entity.Comprador;
 import es.taw.aliebay.entity.Producto;
 import es.taw.aliebay.entity.Vendedor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,9 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     @Query("SELECT p FROM Producto p WHERE p.categoria = :categoria")
     List<Producto> findAllCategoria(@Param("categoria") Categoria categoria);
 
-    @Query("SELECT p FROM Producto p WHERE p.idVendedor= :idVendedor")
-    List<Producto> findAllVendedor(@Param("idVendedor") Vendedor vendedor);
+    @Query("SELECT p FROM Producto p WHERE p.idVendedor= :vendedor")
+    List<Producto> findAllVendedor(@Param("vendedor") Vendedor vendedor);
+
+    @Query("SELECT p FROM Producto p WHERE p.venta.idComprador = :comprador")
+    List<Producto> findAllComprador(@Param("comprador") Comprador comprador);
 }

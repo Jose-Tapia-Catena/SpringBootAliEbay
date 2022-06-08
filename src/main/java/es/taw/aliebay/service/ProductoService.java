@@ -1,14 +1,12 @@
 package es.taw.aliebay.service;
 
 import es.taw.aliebay.dao.CategoriaRepository;
+import es.taw.aliebay.dao.CompradorRepository;
 import es.taw.aliebay.dao.ProductoRepository;
 import es.taw.aliebay.dao.VendedorRepository;
 import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.dto.UsuarioDTO;
-import es.taw.aliebay.entity.Categoria;
-import es.taw.aliebay.entity.Producto;
-import es.taw.aliebay.entity.Usuario;
-import es.taw.aliebay.entity.Vendedor;
+import es.taw.aliebay.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +45,15 @@ public class ProductoService {
 
     private VendedorRepository vendedorRepository;
 
+    public CompradorRepository getCompradorRepository() {
+        return compradorRepository;
+    }
+    @Autowired
+    public void setCompradorRepository(CompradorRepository compradorRepository) {
+        this.compradorRepository = compradorRepository;
+    }
+
+    private CompradorRepository compradorRepository;
     public List<ProductoDTO> listarProductos(){
         List<Producto> productos = productoRepository.findAll();
         return this.listaEntityADTO(productos);
@@ -72,6 +79,12 @@ public class ProductoService {
     public List<ProductoDTO> listarProductosVendedor(Integer idVendedor) {
         Vendedor vendedor = vendedorRepository.findById(idVendedor).orElse(null);
         List<Producto> productos = productoRepository.findAllVendedor(vendedor);
+        return this.listaEntityADTO(productos);
+    }
+
+    public List<ProductoDTO> listarProductosComprador(Integer idComprador) {
+        Comprador comprador = compradorRepository.findById(idComprador).orElse(null);
+        List<Producto> productos = productoRepository.findAllComprador(comprador);
         return this.listaEntityADTO(productos);
     }
 }

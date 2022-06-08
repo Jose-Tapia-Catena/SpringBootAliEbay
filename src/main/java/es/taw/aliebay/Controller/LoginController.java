@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class LoginController {
 
@@ -35,5 +37,10 @@ public class LoginController {
             goTo = "login";
         }
         return "redirect:/administrador/";
+    }
+
+    @GetMapping("/logout/")
+    public String doLogout(){
+        return "redirect:/";
     }
 }

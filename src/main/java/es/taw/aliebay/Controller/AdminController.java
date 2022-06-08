@@ -143,6 +143,22 @@ public class AdminController {
         return "productos";
     }
 
+    @GetMapping("/administrador/comprador/{idComprador}/productos/")
+    public String doVerProductosComprador(@PathVariable("idComprador") Integer idComprador, Model model){
+
+
+        List<ProductoDTO> productosVendidos = productoService.listarProductosComprador(idComprador);
+        model.addAttribute("productosConVentas",productosVendidos);
+            /*
+            HttpSession session = request.getSession();
+            String tipo = (String) session.getAttribute("tipoUsuario");
+            if(tipo.equals("Admin")) {
+                request.setAttribute("admin", true);
+            }
+            */
+
+        return "productosComprador";
+    }
     @GetMapping("/administrador/vendedor/{idVendedor}/productos/")
     public String doVerProductosVendedor(@PathVariable("idVendedor") Integer idVendedor, Model model){
 

@@ -16,9 +16,9 @@
     <title>Productos</title>
 </head>
 <body>
-<%--
-<jsp:include page="/WEB-INF/jsp/cabecera.jsp" />
---%>
+
+<jsp:include page="/WEB-INF/view/cabecera.jsp" />
+
 
 <%
     List<ProductoDTO> productosVendidos = (List)request.getAttribute("productosVendidos");

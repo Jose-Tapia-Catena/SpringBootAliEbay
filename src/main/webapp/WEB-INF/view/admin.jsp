@@ -18,9 +18,9 @@
     <title>Listado de usuarios</title>
 </head>
 <body>
-<%--
-<jsp:include page="/WEB-INF/jsp/cabecera.jsp" />
---%>
+
+<jsp:include page="/WEB-INF/view/cabecera.jsp" />
+
 <h1>Listado de usuarios</h1>
 <h2>Compradores: </h2>
 <table border="1" width="80%">
@@ -51,7 +51,7 @@
         <td><%= u.getSexo()%></td>
         <td><a href="/administrador/usuario/borrar/<%=u.getIdUsuario()%>/">Borrar</a></td>
         <td><a href="/administrador/usuario/<%=u.getIdUsuario()%>/editar/">Editar</a></td>
-        <td><a href="">Productos</a></td>
+        <td><a href="/administrador/comprador/<%=u.getIdUsuario()%>/productos/">Productos</a></td>
     </tr>
 
     <%

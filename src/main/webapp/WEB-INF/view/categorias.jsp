@@ -16,9 +16,9 @@
     <title>Gestionar categorias</title>
 </head>
 <body>
-<%--
-<jsp:include page="/WEB-INF/jsp/cabecera.jsp" />
---%>
+
+<jsp:include page="/WEB-INF/view/cabecera.jsp" />
+
 <h1>Listado de categorias</h1>
 <table border="1" width="80%">
     <tr>
