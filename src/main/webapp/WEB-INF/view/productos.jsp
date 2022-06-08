@@ -66,7 +66,7 @@
         <td><%= p.getDescripcion() %></td>
         <td><%= p.getCategoria() %></td>
         <td><%= p.getPrecioSalida() %></td>
-        <td><a href="">Ver Foto</a></td>
+        <td><a href="/verFoto/<%=p.getuRLFoto()%>>">Ver Foto</a></td>
         <td><%= p.getFechaSalida() %></td>
         <td><%= p.getFechaFin() %></td>
         <td><a href="">Borrar</a></td>
@@ -140,7 +140,7 @@
         <td><%= p.getDescripcion() %></td>
         <td><%= p.getCategoria() %></td>
         <td><%= p.getPrecioSalida() %></td>
-        <td><a href="verFotoServlet?url=<%= p.getuRLFoto() %>">Ver Foto</a></td>
+        <td><a href="/verFoto/<%=p.getuRLFoto()%>>">Ver Foto</a></td>
         <td><%= p.getFechaSalida() %></td>
         <td><%= p.getFechaFin() %></td>
         <td><a href="">Borrar</a></td>

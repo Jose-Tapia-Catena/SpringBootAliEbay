@@ -82,6 +82,16 @@ public class UsuarioDTO {
     private String sexo;
     private String userName;
     private String password;
+    private String tipoUsuario;
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
 
     //private CompradorDTO comprador;
     //private MarketingDTO marketing;

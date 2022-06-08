@@ -58,7 +58,7 @@
         }
     %>
 </table>
-<a href="">Crear Nuevo Comprador</a><br/>
+<a href="/administrador/usuario/comprador/crear/">Crear Nuevo Comprador</a><br/>
 
 <h2>Vendedores: </h2>
 <table border="1" width="80%">
@@ -96,7 +96,7 @@
         }
     %>
 </table>
-<a href="">Crear Nuevo Vendedor</a><br/>
+<a href="/administrador/usuario/vendedor/crear/">Crear Nuevo Vendedor</a><br/>
 <h2>Marketing: </h2>
 <table border="1" width="80%">
     <tr>
@@ -131,7 +131,7 @@
         }
     %>
 </table>
-<a href="">Crear Nuevo Marketing</a>
+<a href="/administrador/usuario/marketing/crear/">Crear Nuevo Marketing</a>
 <br/>
 <br/>
 

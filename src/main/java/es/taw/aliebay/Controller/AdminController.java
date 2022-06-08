@@ -2,11 +2,10 @@ package es.taw.aliebay.Controller;
 
 
 import es.taw.aliebay.dto.CategoriaDTO;
-import es.taw.aliebay.dto.CompradorDTO;
 import es.taw.aliebay.dto.ProductoDTO;
+import es.taw.aliebay.dto.UsuarioDTO;
 import es.taw.aliebay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +61,17 @@ public class AdminController {
     @Autowired
     public void setProductoService(ProductoService productoService) { this.productoService = productoService;}
     private ProductoService productoService;
+
+    public UsuarioService getUsuarioService() {
+        return usuarioService;
+    }
+    @Autowired
+    public void setUsuarioService(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    private UsuarioService usuarioService;
+
 
     @GetMapping("/administrador/")
     public String doInit (Model model){
@@ -168,5 +178,20 @@ public class AdminController {
         model.addAttribute("vendedor",idVendedor);
 
         return "productos";
+    }
+
+    @GetMapping("/administrador/usuario/{tipoUsuario}/crear/")
+    public String doCrearUsuario(@PathVariable("tipoUsuario") String tipoUsuario, Model model){
+        UsuarioDTO u = new UsuarioDTO();
+        u.setTipoUsuario(tipoUsuario);
+        model.addAttribute("usuario", u);
+        return "nuevoUsuario";
+    }
+
+
+    @PostMapping("/administrador/usuario/guardar/")
+    public String doGuardarUsuario(@ModelAttribute("usuario") UsuarioDTO usuario, Model model){
+        UsuarioDTO u = usuarioService.crearUsuario(usuario);
+        return "redirect:/administrador/";
     }
 }

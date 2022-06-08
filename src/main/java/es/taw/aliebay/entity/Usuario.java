@@ -226,6 +226,14 @@ public class Usuario implements Serializable {
         dto.setCiudadResidencia(this.ciudadResidencia);
         dto.setUserName(this.userName);
         dto.setUserName(this.password);
+        if(this.comprador != null)
+            dto.setTipoUsuario("comprador");
+        else if(this.vendedor != null)
+            dto.setTipoUsuario("vendedor");
+        else if(this.marketing != null)
+            dto.setTipoUsuario("marketing");
+        else
+            dto.setTipoUsuario("administrador");
         return dto;
     }
 }
