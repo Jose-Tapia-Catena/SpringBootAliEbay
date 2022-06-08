@@ -1,7 +1,9 @@
 package es.taw.aliebay.Controller;
 
 
+import es.taw.aliebay.dto.CategoriaDTO;
 import es.taw.aliebay.dto.CompradorDTO;
+import es.taw.aliebay.service.CategoriaService;
 import es.taw.aliebay.service.CompradorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,16 @@ public class AdminController {
 
     private CompradorService compradorService;
 
+    public CategoriaService getCategoriaService() {
+        return categoriaService;
+    }
+    @Autowired
+    public void setCategoriaService(CategoriaService categoriaService) {
+        this.categoriaService = categoriaService;
+    }
+
+    private CategoriaService categoriaService;
+
     @GetMapping("/administrador/")
     public String doInit (Model model){
         List<CompradorDTO> compradorList = this.compradorService.listarCompradores();
@@ -30,6 +42,13 @@ public class AdminController {
         model.addAttribute("vendedores", compradorList);
         model.addAttribute("marketings", compradorList);
         return "admin";
+    }
+
+    @GetMapping("/administrador/categorias/")
+    public String doVerCategorias(Model model){
+        List<CategoriaDTO> categoriaList = this.categoriaService.listarCategorias();
+        model.addAttribute("categorias", categoriaList);
+        return "categorias";
     }
 
 }

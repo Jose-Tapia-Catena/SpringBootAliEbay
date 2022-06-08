@@ -134,7 +134,7 @@
 <br/>
 <br/>
 
-<a href="">Categorias de productos</a>
+<a href="/administrador/categorias/">Categorias de productos</a>
 </body>
 </html>
 
