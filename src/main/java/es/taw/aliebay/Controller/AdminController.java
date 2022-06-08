@@ -6,9 +6,10 @@ import es.taw.aliebay.dto.CompradorDTO;
 import es.taw.aliebay.service.CategoriaService;
 import es.taw.aliebay.service.CompradorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -51,4 +52,21 @@ public class AdminController {
         return "categorias";
     }
 
+    @GetMapping("/administrador/categorias/nuevo/")
+    public String doCrearCategoria(Model model){
+        model.addAttribute("categoria", new CategoriaDTO());
+        return "nuevaCategoria";
+    }
+
+    @PostMapping("/administrador/categorias/guardar/")
+    public String doGuardarCategoria(@ModelAttribute("categoria") CategoriaDTO categoria, Model model){
+        categoriaService.guardarCategoria(categoria.getIdCategoria());
+        return "redirect:/administrador/categorias/";
+    }
+
+    @GetMapping("/administrador/categorias/borrar/{idCategoria}/")
+    public String doBorrarCategoria(@PathVariable("idCategoria") String idCategoria, Model model){
+        categoriaService.borrarCategoria(idCategoria);
+        return "redirect:/administrador/categorias/";
+    }
 }

@@ -38,4 +38,15 @@ public class CategoriaService {
         }
         return listaDTO;
     }
+
+    public void guardarCategoria(String idCategoria) {
+        Categoria categoria = new Categoria(idCategoria);
+        this.categoriaRepository.save(categoria);
+    }
+
+    public void borrarCategoria(String idCategoria) {
+        Categoria cat = this.categoriaRepository.findById(idCategoria).orElse(null);
+        if(cat!= null)
+            this.categoriaRepository.delete(cat);
+    }
 }
