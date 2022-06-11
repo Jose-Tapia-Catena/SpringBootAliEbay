@@ -13,6 +13,14 @@
   <title>Registrar usuario</title>
 </head>
 <body>
+<%
+  if (session.getAttribute("user") != null){
+%>
+  <jsp:include page="/WEB-INF/view/cabecera.jsp" />
+
+<%
+  }
+%>
   <%
     UsuarioDTO u = (UsuarioDTO) request.getAttribute("usuario");
   %>

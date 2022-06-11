@@ -14,6 +14,7 @@
     <title>NuevaCategoria</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/cabecera.jsp" />
 <h1>Nueva Categoria:</h1>
 <%--@elvariable id="categoria" type="es.taw.aliebay.dto.CategoriaDTO"--%>
 <form:form method="post" action="/administrador/categorias/guardar/" modelAttribute="categoria">

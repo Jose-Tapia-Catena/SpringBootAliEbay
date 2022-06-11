@@ -29,18 +29,22 @@ public class LoginController {
     }
 
     @PostMapping("/autentica/")
-    public String doAutentica(Model model, @ModelAttribute("usuario") UsuarioDTO usuario){
-        String goTo = "admin";
+    public String doAutentica(Model model, HttpSession session, @ModelAttribute("usuario") UsuarioDTO usuario){
+        String goTo;
         UsuarioDTO userChecked = this.usuarioService.findUserByUserNameAndPassword(usuario.getUserName(),usuario.getPassword());
         if(userChecked == null){
             model.addAttribute("error","Usuario o contraseña incorrectos");
             goTo = "login";
+        }else{
+            session.setAttribute("user", userChecked);
+            goTo = "redirect:/" + userChecked.getTipoUsuario() + "/";
         }
-        return "redirect:/administrador/";
+        return goTo ;
     }
 
     @GetMapping("/logout/")
-    public String doLogout(){
+    public String doLogout(HttpSession session){
+        session.invalidate();
         return "redirect:/";
     }
 }

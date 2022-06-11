@@ -1,11 +1,7 @@
 package es.taw.aliebay.service;
 
-import es.taw.aliebay.dao.CategoriaRepository;
-import es.taw.aliebay.dao.CompradorRepository;
-import es.taw.aliebay.dao.ProductoRepository;
-import es.taw.aliebay.dao.VendedorRepository;
+import es.taw.aliebay.dao.*;
 import es.taw.aliebay.dto.ProductoDTO;
-import es.taw.aliebay.dto.UsuarioDTO;
 import es.taw.aliebay.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +11,16 @@ import java.util.List;
 
 @Service
 public class ProductoService {
+    public VentaRepository getVentaRepository() {
+        return ventaRepository;
+    }
+    @Autowired
+    public void setVentaRepository(VentaRepository ventaRepository) {
+        this.ventaRepository = ventaRepository;
+    }
+
+    private VentaRepository ventaRepository;
+
     public ProductoRepository getProductoRepository() {
         return productoRepository;
     }
@@ -61,7 +67,8 @@ public class ProductoService {
 
     public List<ProductoDTO> listarProductosCategoria(String idCategoria){
         Categoria cat = categoriaRepository.findById(idCategoria).orElse(null);
-        List<Producto> productos = productoRepository.findAllCategoria(cat);
+        //List<Producto> productos = productoRepository.findAllCategoria(cat);
+        List<Producto> productos = cat.getProductoList();
         return this.listaEntityADTO(productos);
     }
 
@@ -78,13 +85,43 @@ public class ProductoService {
 
     public List<ProductoDTO> listarProductosVendedor(Integer idVendedor) {
         Vendedor vendedor = vendedorRepository.findById(idVendedor).orElse(null);
-        List<Producto> productos = productoRepository.findAllVendedor(vendedor);
+        //List<Producto> productos = productoRepository.findAllVendedor(vendedor);
+        List<Producto> productos = vendedor.getProductoList();
         return this.listaEntityADTO(productos);
     }
 
     public List<ProductoDTO> listarProductosComprador(Integer idComprador) {
         Comprador comprador = compradorRepository.findById(idComprador).orElse(null);
-        List<Producto> productos = productoRepository.findAllComprador(comprador);
+        //List<Producto> productos = productoRepository.findAllComprador(comprador);
+        List<Producto> productos = new ArrayList<>();
+        for(Venta v:comprador.getVentaList()){
+            productos.add(v.getProducto());
+        }
         return this.listaEntityADTO(productos);
+    }
+
+    public Integer borrarProductoComprador(Integer idProducto) {
+        Producto p = this.productoRepository.findById(idProducto).orElse(null);
+        Integer compradorId = p.getVenta().getIdComprador().getIdUsuario();
+        borrarProducto(p);
+        return compradorId;
+    }
+
+    public void borrarProducto(Producto p){
+        //Para todos los compradores que lo tenian en favorito lo quitamos
+        for(Comprador c: p.getCompradorList()){
+            List<Producto> prodsCo = c.getProductoList();
+            prodsCo.remove(p);
+            c.setProductoList(prodsCo);
+            compradorRepository.save(c);
+        }
+        this.productoRepository.delete(p);
+    }
+
+    public Integer borrarProductoVendedor(Integer idProducto) {
+        Producto p = this.productoRepository.findById(idProducto).orElse(null);
+        Integer vendedor = p.getIdVendedor().getIdUsuario();
+        borrarProducto(p);
+        return vendedor;
     }
 }

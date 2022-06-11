@@ -69,7 +69,7 @@
         <td><a href="/verFoto/<%=p.getuRLFoto()%>>">Ver Foto</a></td>
         <td><%= p.getFechaSalida() %></td>
         <td><%= p.getFechaFin() %></td>
-        <td><a href="">Borrar</a></td>
+        <td><a href="/administrador/vendedor/productos/<%=p.getIdProducto() %>/borrar/">Borrar</a></td>
     </tr>
 
     <%
@@ -105,7 +105,7 @@
         <td><%= p.getVenta().getPrecioVenta() %></td>
         <td><%= p.getVenta().getComprador() %></td>
         <td><%= p.getVenta().getFecha() %></td>
-        <td><a href="">Borrar</a></td>
+        <td><a href="/administrador/vendedor/productos/<%=p.getIdProducto() %>/borrar/">Borrar</a></td>
     </tr>
 
     <%
@@ -143,7 +143,7 @@
         <td><a href="/verFoto/<%=p.getuRLFoto()%>>">Ver Foto</a></td>
         <td><%= p.getFechaSalida() %></td>
         <td><%= p.getFechaFin() %></td>
-        <td><a href="">Borrar</a></td>
+        <td><a href="/administrador/vendedor/productos/<%=p.getIdProducto() %>/borrar/">Borrar</a></td>
     </tr>
 
     <%

@@ -159,6 +159,22 @@ public class AdminController {
 
         return "productosComprador";
     }
+
+    @GetMapping("/administrador/comprador/productos/{idProducto}/borrar/")
+    public String doBorrarProductoComprador(@PathVariable("idProducto") Integer idProducto, Model model){
+        Integer comprador = productoService.borrarProductoComprador(idProducto);
+
+        return "redirect:/administrador/comprador/"+comprador+ "/productos/";
+    }
+
+    @GetMapping("/administrador/vendedor/productos/{idProducto}/borrar/")
+    public String doBorrarProductoVendedor(@PathVariable("idProducto") Integer idProducto, Model model){
+        Integer vendedor = productoService.borrarProductoVendedor(idProducto);
+
+        return "redirect:/administrador/vendedor/"+vendedor+"/productos/";
+    }
+
+
     @GetMapping("/administrador/vendedor/{idVendedor}/productos/")
     public String doVerProductosVendedor(@PathVariable("idVendedor") Integer idVendedor, Model model){
 

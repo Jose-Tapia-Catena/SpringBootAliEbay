@@ -1,4 +1,4 @@
-<%--
+<%@ page import="es.taw.aliebay.dto.UsuarioDTO" %><%--
   Created by IntelliJ IDEA.
   User: felip
   Date: 08/06/2022
@@ -9,8 +9,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-    <jsp:include page="/WEB-INF/view/cabecera.jsp" />
+    <%
+        UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
+        String cabecera  = "";
+        if (user.getTipoUsuario().equals("comprador")){
+            cabecera = "Favorito";
+        }
+    %>
+    <jsp:include page="/WEB-INF/view/cabecera<%=cabecera%>.jsp" />
 
     <title>Foto</title>
 </head>

@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<jsp:include page="/WEB-INF/view/cabecera.jsp" />
+<jsp:include page="/WEB-INF/view/cabecera.jsp"/>
 
 <h1>Listado de usuarios</h1>
 <h2>Compradores: </h2>

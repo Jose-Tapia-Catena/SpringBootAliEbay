@@ -9,6 +9,7 @@
 <%@page import="java.util.List"%>
 <%@ page import="es.taw.aliebay.dto.VentaDTO" %>
 <%@ page import="es.taw.aliebay.dto.ProductoDTO" %>
+<%@ page import="es.taw.aliebay.dto.UsuarioDTO" %>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,7 +17,8 @@
 </head>
 <body>
   <%
-    if (request.getAttribute("admin") == null){
+    UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
+    if (user.getTipoUsuario().equals("comprador")){
   %>
   <%--
     <jsp:include page="/WEB-INF/jsp/cabeceraFavoritos.jsp" />
@@ -24,20 +26,15 @@
     <h1>Mis productos</h1>
 
   <%
-    } else {
+    } else if(user.getTipoUsuario().equals("administrador")){
   %>
     <jsp:include page="/WEB-INF/view/cabecera.jsp" />
+
     <h1>Productos del comprador</h1>
   <%
     }
-  %>
-
-
-
-  <%
     List<ProductoDTO> productosConVentas = (List)request.getAttribute("productosConVentas");
     if(productosConVentas == null || productosConVentas.isEmpty()) {
-
   %>
   <h2>No tiene ningún producto comprado</h2>
   <%
@@ -69,7 +66,7 @@
     <td><%= pc.getVenta().getFecha()%></td>
     <td><%= pc.getPrecioSalida()%> €</td>
     <td><%= pc.getVenta().getPrecioVenta()%> €</td>
-    <td><a href=""> Borrar </a></td>
+    <td><a href="/administrador/comprador/productos/<%=pc.getIdProducto() %>/borrar/"> Borrar </a></td>
   </tr>
     <%
                     }
