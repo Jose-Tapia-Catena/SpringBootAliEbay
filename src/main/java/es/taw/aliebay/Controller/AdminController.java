@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-public class AdminController {
+public class AdminController extends AliEbaySessionController{
 
     public CompradorService getCompradorService() {
         return compradorService;
@@ -74,11 +75,16 @@ public class AdminController {
 
 
     @GetMapping("/administrador/")
-    public String doInit (Model model){
-        model.addAttribute("compradores", this.compradorService.listarCompradores());
-        model.addAttribute("vendedores", this.vendedorService.listarVendedores());
-        model.addAttribute("marketings", this.marketingService.listarMarketings());
-        return "admin";
+    public String doInit (HttpSession session,Model model){
+        String goTo = "admin";
+        if(this.comprobarAdmin(session,model)){
+                model.addAttribute("compradores", this.compradorService.listarCompradores());
+                model.addAttribute("vendedores", this.vendedorService.listarVendedores());
+                model.addAttribute("marketings", this.marketingService.listarMarketings());
+        }else{
+            goTo = "redirect:/login/error/";
+        }
+        return goTo;
     }
 
     @GetMapping("/administrador/categorias/")
@@ -149,14 +155,6 @@ public class AdminController {
 
         List<ProductoDTO> productosVendidos = productoService.listarProductosComprador(idComprador);
         model.addAttribute("productosConVentas",productosVendidos);
-            /*
-            HttpSession session = request.getSession();
-            String tipo = (String) session.getAttribute("tipoUsuario");
-            if(tipo.equals("Admin")) {
-                request.setAttribute("admin", true);
-            }
-            */
-
         return "productosComprador";
     }
 

@@ -28,6 +28,13 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/login/error/")
+    public String doInitError(Model model){
+        model.addAttribute("usuario",new UsuarioDTO());
+        model.addAttribute("error","Acceso Denegado");
+        return "login";
+    }
+
     @PostMapping("/autentica/")
     public String doAutentica(Model model, HttpSession session, @ModelAttribute("usuario") UsuarioDTO usuario){
         String goTo;
