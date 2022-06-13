@@ -2,6 +2,7 @@ package es.taw.aliebay.Controller;
 
 import es.taw.aliebay.dto.CompradorDTO;
 import es.taw.aliebay.dto.ListacompradorDTO;
+import es.taw.aliebay.dto.UsuarioDTO;
 import es.taw.aliebay.service.CompradorService;
 import es.taw.aliebay.service.ListaCompradorService;
 import es.taw.aliebay.service.MarketingService;
@@ -42,10 +43,13 @@ public class ListaCompradorController {
     }
 
     @GetMapping("/marketing/")
-    public String doInit(Model model){
+    public String doInit(HttpSession httpSession, Model model){
 
         List<ListacompradorDTO> listacompradores = this.listacompradorService.listarListaCompradores();
         model.addAttribute("listaCompradores", listacompradores);
+
+        UsuarioDTO user = (UsuarioDTO) httpSession.getAttribute("user");
+        model.addAttribute("marketing", user);
 
         return "listaCompradores";
     }

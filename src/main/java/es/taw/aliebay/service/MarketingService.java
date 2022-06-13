@@ -39,4 +39,8 @@ public class MarketingService {
         return listaDTO;
     }
 
+    public MarketingDTO buscarById(Integer idUsuario) {
+        Marketing marketing = this.marketingRepository.findById(idUsuario).orElse(null);
+        return marketing.toDTO();
+    }
 }

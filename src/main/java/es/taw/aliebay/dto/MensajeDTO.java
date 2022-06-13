@@ -20,11 +20,11 @@ public class MensajeDTO {
         this.descripcion = descripcion;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -36,11 +36,11 @@ public class MensajeDTO {
         this.asunto = asunto;
     }
 
-    public List<ProductoDTO> getProductoList() {
+    public List<Integer> getProductoList() {
         return productoList;
     }
 
-    public void setProductoList(List<ProductoDTO> productoList) {
+    public void setProductoList(List<Integer> productoList) {
         this.productoList = productoList;
     }
 
@@ -62,9 +62,9 @@ public class MensajeDTO {
 
     private Integer id;
     private String descripcion;
-    private Date fecha;
+    private String fecha;
     private String asunto;
-    private List<ProductoDTO> productoList;
+    private List<Integer> productoList;
     private ListacompradorDTO listaComprador;
     private MarketingDTO marketing;
 }

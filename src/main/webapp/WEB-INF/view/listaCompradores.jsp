@@ -7,6 +7,7 @@
 --%>
 <%@page import="java.util.List"%>
 <%@ page import="es.taw.aliebay.dto.ListacompradorDTO" %>
+<%@ page import="es.taw.aliebay.dto.UsuarioDTO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,6 +16,9 @@
     <title>Marketing</title>
 </head>
 <body>
+<%
+    UsuarioDTO usuario = (UsuarioDTO) request.getAttribute("marketing");
+%>
 <h1>Lista de compradores</h1>
 <table border="1" width="80%">
     <tr>
@@ -31,7 +35,7 @@
     <tr>
         <td><%= lc.getNombre()%></td>
 
-        <td><a href="/marketing/listaCompradorMensajes/<%= lc.getIdLista()%>/">Ver Mensajes</td>
+        <td><a href="/marketing/listaCompradorMensajes/<%= lc.getIdLista()%>/marketing/ <%= usuario.getIdUsuario() %>">Ver Mensajes</td>
         <td><a href="/marketing/listaCompradorEditar/<%= lc.getIdLista()%>/">Editar</a></td>
         <td><a href="/marketing/listaCompradorBorrar/<%= lc.getIdLista()%>/">Borrar</a></td>
     </tr>

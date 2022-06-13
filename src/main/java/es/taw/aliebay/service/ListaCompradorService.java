@@ -70,25 +70,6 @@ public class ListaCompradorService {
         return lc.toDTO();
     }
 
-    public void guardar(ListacompradorDTO dto) {
-        Listacomprador listacomprador = new Listacomprador(dto);
-
-        //Actualizo en comprador
-        List<Comprador> compradores = converListIntegerToListComprador(dto.getCompradorList());
-
-        for (Comprador c : compradores){
-            List<Listacomprador> lista = c.getListacompradorList();
-            lista.add(listacomprador);
-            c.setListacompradorList(lista);
-            this.compradorRepository.save(c);
-        }
-
-        //Actualizo la referencia en listaComprador
-        listacomprador.setCompradorList(compradores);
-        listacomprador.setMensajeList(converListIntegerToListMensaje(dto.getMensajeList()));
-
-        this.listacompradorRepository.save(listacomprador);
-    }
 
     private List<Comprador> converListIntegerToListComprador (List<Integer> compradoresId){
         List<Comprador> result = new ArrayList<>();

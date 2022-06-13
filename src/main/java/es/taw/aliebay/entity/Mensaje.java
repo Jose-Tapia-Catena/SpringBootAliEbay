@@ -4,7 +4,10 @@
  */
 package es.taw.aliebay.entity;
 
+import es.taw.aliebay.dto.MensajeDTO;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -159,5 +162,17 @@ public class Mensaje implements Serializable {
     public String toString() {
         return "a.entity.Mensaje[ id=" + id + " ]";
     }
-    
+
+    public MensajeDTO toDTO() {
+        MensajeDTO dto = new MensajeDTO();
+        dto.setId(this.id);
+        dto.setAsunto(this.asunto);
+        dto.setDescripcion(this.descripcion);
+
+        SimpleDateFormat fecha = new SimpleDateFormat  ("dd/MM/yyyy HH:mm:ss");
+        dto.setFecha(fecha.format(this.getFecha()));
+        dto.setMarketing(this.idMarketing.toDTO());
+        dto.setListaComprador(this.idListaComprador.toDTO());
+        return dto;
+    }
 }
