@@ -19,24 +19,24 @@ public class ListacompradorDTO {
         this.nombre = nombre;
     }
 
-    public List<CompradorDTO> getCompradorList() {
+    public List<Integer> getCompradorList() {
         return compradorList;
     }
 
-    public void setCompradorList(List<CompradorDTO> compradorList) {
+    public void setCompradorList(List<Integer> compradorList) {
         this.compradorList = compradorList;
     }
 
-    public List<MensajeDTO> getMensajeList() {
+    public List<Integer> getMensajeList() {
         return mensajeList;
     }
 
-    public void setMensajeList(List<MensajeDTO> mensajeList) {
+    public void setMensajeList(List<Integer> mensajeList) {
         this.mensajeList = mensajeList;
     }
 
     private Integer idLista;
     private String nombre;
-    private List<CompradorDTO> compradorList;
-    private List<MensajeDTO> mensajeList;
+    private List<Integer> compradorList;
+    private List<Integer> mensajeList;
 }

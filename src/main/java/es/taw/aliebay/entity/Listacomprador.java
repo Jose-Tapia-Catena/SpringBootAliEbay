@@ -4,7 +4,12 @@
  */
 package es.taw.aliebay.entity;
 
+import es.taw.aliebay.dto.ListacompradorDTO;
+import es.taw.aliebay.dto.MarketingDTO;
+import es.taw.aliebay.dto.MensajeDTO;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -53,6 +58,11 @@ public class Listacomprador implements Serializable {
 
     public Listacomprador(Integer idLista) {
         this.idLista = idLista;
+    }
+
+    public Listacomprador (ListacompradorDTO dto){
+        this.idLista = dto.getIdLista();
+        this.nombre = dto.getNombre();
     }
 
     public Listacomprador(Integer idLista, String nombre) {
@@ -120,5 +130,31 @@ public class Listacomprador implements Serializable {
     public String toString() {
         return "a.entity.Listacomprador[ idLista=" + idLista + " ]";
     }
-    
+
+    public ListacompradorDTO toDTO(){
+        ListacompradorDTO dto = new ListacompradorDTO();
+        dto.setIdLista(this.idLista);
+        dto.setNombre(this.getNombre());
+        dto.setMensajeList(toIntegerMensajeList(mensajeList));
+        dto.setCompradorList(toIntegerCompradorList(compradorList));
+        return dto;
+    }
+
+    private List<Integer> toIntegerMensajeList(List<Mensaje> mensajeList) {
+        List<Integer> lista = new ArrayList<>();
+        for (Mensaje m : mensajeList){
+            lista.add(m.getId());
+        }
+        return lista;
+    }
+
+    private List<Integer> toIntegerCompradorList(List<Comprador> compradorList) {
+        List<Integer> lista = new ArrayList<>();
+        for (Comprador c : compradorList){
+            lista.add(c.getIdUsuario());
+        }
+        return lista;
+    }
+
+
 }
