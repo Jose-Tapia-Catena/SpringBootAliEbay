@@ -30,7 +30,7 @@
     Contraseña: <form:password path="password" /> <br>
     <form:button>Enviar</form:button>
 </form:form>
-    ¿No tienes una cuenta? <a href="/administrador/usuario/crear/">Regístrate</a>
+    ¿No tienes una cuenta? <a href="/usuario/crear/">Regístrate</a>
 </form>
 </body>
 </html>

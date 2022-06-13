@@ -28,6 +28,13 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/login/error/")
+    public String doInitError(Model model){
+        model.addAttribute("usuario",new UsuarioDTO());
+        model.addAttribute("error","Acceso Denegado");
+        return "login";
+    }
+
     @PostMapping("/autentica/")
     public String doAutentica(Model model, HttpSession session, @ModelAttribute("usuario") UsuarioDTO usuario){
         String goTo;
@@ -47,4 +54,19 @@ public class LoginController {
         session.invalidate();
         return "redirect:/";
     }
+
+    @GetMapping("/usuario/crear/")
+    public String doCrearUsuario(HttpSession session,Model model){
+            UsuarioDTO u = new UsuarioDTO();
+            model.addAttribute("usuario", u);
+            return "nuevoUsuario";
+    }
+
+    @PostMapping("/usuario/guardar/")
+    public String doGuardarUsuario(HttpSession session, Model model,
+                                   @ModelAttribute("usuario") UsuarioDTO usuario){
+        usuarioService.crearUsuario(usuario);
+        return "redirect:/";
+    }
+
 }
