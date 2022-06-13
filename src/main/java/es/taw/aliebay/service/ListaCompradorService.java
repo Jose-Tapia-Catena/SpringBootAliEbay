@@ -109,5 +109,71 @@ public class ListaCompradorService {
         }
         return result;
     }
+
+    public void modificarListacomprador(ListacompradorDTO dto) {
+        Listacomprador listacomprador = listacompradorRepository.findById(dto.getIdLista()).orElse(null);
+        listacomprador.setNombre(dto.getNombre());
+
+        List<Comprador> compradores = new ArrayList<>();
+
+        for(Comprador c:compradorRepository.findAll()){
+            List<Listacomprador> listacompradorList = c.getListacompradorList();
+            if(!dto.getCompradorList().contains(c.getIdUsuario())){
+
+                if(listacompradorList.contains(listacomprador)){
+                    listacompradorList.remove(listacomprador);
+                    c.setListacompradorList(listacompradorList);
+                    compradorRepository.save(c);
+                }
+
+            }else{
+                compradores.add(c);
+                if(!listacompradorList.contains(listacomprador)) {
+                    listacompradorList.add(listacomprador);
+                    c.setListacompradorList(listacompradorList);
+                    compradorRepository.save(c);
+                }
+            }
+        }
+
+        listacomprador.setCompradorList(compradores);
+        listacompradorRepository.save(listacomprador);
+    }
+
+    public void crearListacomprador(ListacompradorDTO dto) {
+        Listacomprador listacomprador = new Listacomprador();
+        listacomprador.setNombre(dto.getNombre());
+
+        List<Comprador> compradores = new ArrayList<>();
+
+        for(Integer i:dto.getCompradorList()){
+            Comprador c = this.compradorRepository.findById(i).orElse(null);
+            compradores.add(c);
+        }
+
+        listacomprador.setCompradorList(compradores);
+
+        listacompradorRepository.save(listacomprador);
+
+        for(Comprador c:listacomprador.getCompradorList()){
+            List<Listacomprador> listacompradorList = c.getListacompradorList();
+            listacompradorList.add(listacomprador);
+            c.setListacompradorList(listacompradorList);
+
+            compradorRepository.save(c);
+        }
+    }
+
+    public void borrarListacomprador(Integer idLista) {
+        Listacomprador listacomprador = listacompradorRepository.findById(idLista).orElse(null);
+        for(Comprador c:listacomprador.getCompradorList()){
+            List<Listacomprador> listacompradorList = c.getListacompradorList();
+            listacompradorList.remove(listacomprador);
+            c.setListacompradorList(listacompradorList);
+            compradorRepository.save(c);
+        }
+
+        listacompradorRepository.delete(listacomprador);
+    }
 }
 

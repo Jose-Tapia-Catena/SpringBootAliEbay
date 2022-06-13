@@ -17,7 +17,7 @@
 
 <h1>Listas de compradores</h1>
 <%--@elvariable id="listaComprador" type="es.taw.aliebay.dto.ListacompradorDTO"--%>
-<form:form modelAttribute="listaComprador" action="/marketing/listaCompradorGuardar">
+<form:form modelAttribute="listaComprador" action="/marketing/listaCompradorGuardar/">
   <form:hidden path="idLista"/>
   <form:hidden path="mensajeList"/>
   Nombre: <form:input path="nombre" size=""/></br></br>

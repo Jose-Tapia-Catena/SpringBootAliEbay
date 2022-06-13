@@ -23,7 +23,7 @@
         <th></th>
         <th></th>
     </tr>
-    <a href="ListaCompradorNuevoEditarServlet">Crear nueva lista comprador....</a>
+    <a href="/marketing/listaCompradorCrear/">Crear nueva lista comprador....</a>
     <%
         List<ListacompradorDTO> listaCompradores = (List)request.getAttribute("listaCompradores");
         for (ListacompradorDTO lc: listaCompradores) {
@@ -31,9 +31,9 @@
     <tr>
         <td><%= lc.getNombre()%></td>
 
-        <td><a href="/marketing/listaCompradorMensajes/<%= lc.getIdLista()%>">Ver Mensajes</td>
-        <td><a href="/marketing/listaCompradorEditar/<%= lc.getIdLista()%>">Editar</a></td>
-        <td><a href="/marketing/listaCompradorBorrar/<%= lc.getIdLista()%>">Borrar</a></td>
+        <td><a href="/marketing/listaCompradorMensajes/<%= lc.getIdLista()%>/">Ver Mensajes</td>
+        <td><a href="/marketing/listaCompradorEditar/<%= lc.getIdLista()%>/">Editar</a></td>
+        <td><a href="/marketing/listaCompradorBorrar/<%= lc.getIdLista()%>/">Borrar</a></td>
     </tr>
     <%
         }
