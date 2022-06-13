@@ -6,6 +6,7 @@ import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.dto.UsuarioDTO;
 import es.taw.aliebay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -74,182 +75,247 @@ public class AdminController extends AliEbaySessionController{
     private UsuarioService usuarioService;
 
 
+    //Listar todos los usuarios
     @GetMapping("/administrador/")
     public String doInit (HttpSession session,Model model){
-        String goTo = "admin";
         if(this.comprobarAdmin(session,model)){
-                model.addAttribute("compradores", this.compradorService.listarCompradores());
-                model.addAttribute("vendedores", this.vendedorService.listarVendedores());
-                model.addAttribute("marketings", this.marketingService.listarMarketings());
+            model.addAttribute("compradores", this.compradorService.listarCompradores());
+            model.addAttribute("vendedores", this.vendedorService.listarVendedores());
+            model.addAttribute("marketings", this.marketingService.listarMarketings());
+            return "admin";
         }else{
-            goTo = "redirect:/login/error/";
+            return "redirect:/login/error/";
         }
-        return goTo;
     }
 
+
+    //Categorias
     @GetMapping("/administrador/categorias/")
-    public String doVerCategorias(Model model){
-        List<CategoriaDTO> categoriaList = this.categoriaService.listarCategorias();
-        model.addAttribute("categorias", categoriaList);
-        return "categorias";
+    public String doVerCategorias(HttpSession session,Model model){
+        if(this.comprobarAdmin(session,model)){
+            List<CategoriaDTO> categoriaList = this.categoriaService.listarCategorias();
+            model.addAttribute("categorias", categoriaList);
+            return "categorias";
+        }else{
+            return "redirect:/login/error/";
+        }
     }
+
 
     @GetMapping("/administrador/categorias/nuevo/")
-    public String doCrearCategoria(Model model){
-        model.addAttribute("categoria", new CategoriaDTO());
-        return "nuevaCategoria";
+    public String doCrearCategoria(HttpSession session,Model model){
+        if(this.comprobarAdmin(session,model)){
+            model.addAttribute("categoria", new CategoriaDTO());
+            return "nuevaCategoria";
+        }else{
+            return "redirect:/login/error/";
+        }
     }
+
 
     @PostMapping("/administrador/categorias/guardar/")
-    public String doGuardarCategoria(@ModelAttribute("categoria") CategoriaDTO categoria, Model model){
-        categoriaService.guardarCategoria(categoria.getIdCategoria());
-        return "redirect:/administrador/categorias/";
+    public String doGuardarCategoria(HttpSession session, Model model,
+                                     @ModelAttribute("categoria") CategoriaDTO categoria){
+        if(this.comprobarAdmin(session,model)){
+            categoriaService.guardarCategoria(categoria.getIdCategoria());
+            return "redirect:/administrador/categorias/";
+        }else{
+            return "redirect:/login/error/";
+        }
     }
+
 
     @GetMapping("/administrador/categorias/borrar/{idCategoria}/")
-    public String doBorrarCategoria(@PathVariable("idCategoria") String idCategoria, Model model){
-        categoriaService.borrarCategoria(idCategoria);
-        return "redirect:/administrador/categorias/";
+    public String doBorrarCategoria(HttpSession session, Model model,
+                                    @PathVariable("idCategoria") String idCategoria){
+        if(this.comprobarAdmin(session,model)){
+            categoriaService.borrarCategoria(idCategoria);
+            return "redirect:/administrador/categorias/";
+
+        }else{
+            return "redirect:/login/error/";
+        }
     }
+
 
     @GetMapping("/administrador/categorias/{idCategoria}/productos/")
-    public String doVerProductosCategoria(@PathVariable("idCategoria") String idCategoria, Model model){
+    public String doVerProductosCategoria(HttpSession session, Model model,
+                                          @PathVariable("idCategoria") String idCategoria){
+        if(this.comprobarAdmin(session,model)){
+            List<ProductoDTO> productos = productoService.listarProductosCategoria(idCategoria);
 
-        List<ProductoDTO> productos = productoService.listarProductosCategoria(idCategoria);
+            List<ProductoDTO> productosVendidos = new ArrayList<>();
+            List<ProductoDTO> productosNoVendidos  = new ArrayList<>();
+            List<ProductoDTO> productosNoVendidosTerminados  = new ArrayList<>();
 
-        List<ProductoDTO> productosVendidos = new ArrayList<>();
-        List<ProductoDTO> productosNoVendidos  = new ArrayList<>();
-        List<ProductoDTO> productosNoVendidosTerminados  = new ArrayList<>();
+            SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-        SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
-        for(ProductoDTO p:productos){
-            if(p.getVenta() == null){
-                Date date = new Date();
-                try{
-                    Date fin = sdf.parse(p.getFechaFin());
-                    if(date.before(fin)){
-                        productosNoVendidos.add(p);
-                    }else{
-                        productosNoVendidosTerminados.add(p);
+            for(ProductoDTO p:productos){
+                if(p.getVenta() == null){
+                    Date date = new Date();
+                    try{
+                        Date fin = sdf.parse(p.getFechaFin());
+                        if(date.before(fin)){
+                            productosNoVendidos.add(p);
+                        }else{
+                            productosNoVendidosTerminados.add(p);
+                        }
+                    }catch (ParseException e) {
+                        e.printStackTrace();
                     }
-                }catch (ParseException e) {
-                    e.printStackTrace();
+                }else{
+                    productosVendidos.add(p);
                 }
-            }else{
-                productosVendidos.add(p);
             }
+
+            model.addAttribute("productosVendidos", productosVendidos);
+            model.addAttribute("productosNoVendidos", productosNoVendidos);
+            model.addAttribute("productosNoVendidosTerminados", productosNoVendidosTerminados);
+            model.addAttribute("categoria",idCategoria);
+            return "productos";
+        }else{
+            return "redirect:/login/error/";
         }
-
-        model.addAttribute("productosVendidos", productosVendidos);
-        model.addAttribute("productosNoVendidos", productosNoVendidos);
-        model.addAttribute("productosNoVendidosTerminados", productosNoVendidosTerminados);
-        model.addAttribute("categoria",idCategoria);
-
-        return "productos";
     }
 
+
+    //Productos comprador
     @GetMapping("/administrador/comprador/{idComprador}/productos/")
-    public String doVerProductosComprador(@PathVariable("idComprador") Integer idComprador, Model model){
-
-
-        List<ProductoDTO> productosVendidos = productoService.listarProductosComprador(idComprador);
-        model.addAttribute("productosConVentas",productosVendidos);
-        return "productosComprador";
+    public String doVerProductosComprador(HttpSession session, Model model,
+                                          @PathVariable("idComprador") Integer idComprador){
+        if(this.comprobarAdmin(session,model)){
+            List<ProductoDTO> productosVendidos = productoService.listarProductosComprador(idComprador);
+            model.addAttribute("productosConVentas",productosVendidos);
+            return "productosComprador";
+        }else{
+            return "redirect:/login/error/";
+        }
     }
+
 
     @GetMapping("/administrador/comprador/productos/{idProducto}/borrar/")
-    public String doBorrarProductoComprador(@PathVariable("idProducto") Integer idProducto, Model model){
-        Integer comprador = productoService.borrarProductoComprador(idProducto);
-
-        return "redirect:/administrador/comprador/"+comprador+ "/productos/";
+    public String doBorrarProductoComprador(HttpSession session,Model model,
+                                            @PathVariable("idProducto") Integer idProducto){
+        if(this.comprobarAdmin(session,model)){
+            Integer comprador = productoService.borrarProductoComprador(idProducto);
+            return "redirect:/administrador/comprador/"+comprador+ "/productos/";
+        }else{
+            return "redirect:/login/error/";
+        }
     }
+
+
+    //Productos vendedor
+    @GetMapping("/administrador/vendedor/{idVendedor}/productos/")
+    public String doVerProductosVendedor(HttpSession session, Model model,
+                                         @PathVariable("idVendedor") Integer idVendedor){
+        if(this.comprobarAdmin(session,model)){
+            List<ProductoDTO> productos = productoService.listarProductosVendedor(idVendedor);
+
+            List<ProductoDTO> productosVendidos = new ArrayList<>();
+            List<ProductoDTO> productosNoVendidos  = new ArrayList<>();
+            List<ProductoDTO> productosNoVendidosTerminados  = new ArrayList<>();
+
+            SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+            for(ProductoDTO p:productos){
+                if(p.getVenta() == null){
+                    Date date = new Date();
+                    try{
+                        Date fin = sdf.parse(p.getFechaFin());
+                        if(date.before(fin)){
+                            productosNoVendidos.add(p);
+                        }else{
+                            productosNoVendidosTerminados.add(p);
+                        }
+                    }catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    productosVendidos.add(p);
+                }
+            }
+
+            model.addAttribute("productosVendidos", productosVendidos);
+            model.addAttribute("productosNoVendidos", productosNoVendidos);
+            model.addAttribute("productosNoVendidosTerminados", productosNoVendidosTerminados);
+            model.addAttribute("vendedor",idVendedor);
+            return "productos";
+
+        }else{
+            return "redirect:/login/error/";
+        }
+    }
+
 
     @GetMapping("/administrador/vendedor/productos/{idProducto}/borrar/")
-    public String doBorrarProductoVendedor(@PathVariable("idProducto") Integer idProducto, Model model){
-        Integer vendedor = productoService.borrarProductoVendedor(idProducto);
-
-        return "redirect:/administrador/vendedor/"+vendedor+"/productos/";
-    }
-
-
-    @GetMapping("/administrador/vendedor/{idVendedor}/productos/")
-    public String doVerProductosVendedor(@PathVariable("idVendedor") Integer idVendedor, Model model){
-
-        List<ProductoDTO> productos = productoService.listarProductosVendedor(idVendedor);
-
-        List<ProductoDTO> productosVendidos = new ArrayList<>();
-        List<ProductoDTO> productosNoVendidos  = new ArrayList<>();
-        List<ProductoDTO> productosNoVendidosTerminados  = new ArrayList<>();
-
-        SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
-        for(ProductoDTO p:productos){
-            if(p.getVenta() == null){
-                Date date = new Date();
-                try{
-                    Date fin = sdf.parse(p.getFechaFin());
-                    if(date.before(fin)){
-                        productosNoVendidos.add(p);
-                    }else{
-                        productosNoVendidosTerminados.add(p);
-                    }
-                }catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }else{
-                productosVendidos.add(p);
-            }
+    public String doBorrarProductoVendedor(HttpSession session, Model model,
+                                           @PathVariable("idProducto") Integer idProducto){
+        if(this.comprobarAdmin(session,model)){
+            Integer vendedor = productoService.borrarProductoVendedor(idProducto);
+            return "redirect:/administrador/vendedor/"+vendedor+"/productos/";
+        }else{
+            return "redirect:/login/error/";
         }
-
-        model.addAttribute("productosVendidos", productosVendidos);
-        model.addAttribute("productosNoVendidos", productosNoVendidos);
-        model.addAttribute("productosNoVendidosTerminados", productosNoVendidosTerminados);
-        model.addAttribute("vendedor",idVendedor);
-
-        return "productos";
     }
 
+
+    //Administrar usuarios
     @GetMapping("/administrador/usuario/{tipoUsuario}/crear/")
-    public String doCrearUsuario(@PathVariable("tipoUsuario") String tipoUsuario, Model model){
-        UsuarioDTO u = new UsuarioDTO();
-        u.setTipoUsuario(tipoUsuario);
-        model.addAttribute("usuario", u);
-        return "nuevoUsuario";
+    public String doCrearUsuario(HttpSession session, Model model,
+                                 @PathVariable("tipoUsuario") String tipoUsuario){
+        if(this.comprobarAdmin(session,model)){
+            UsuarioDTO u = new UsuarioDTO();
+            u.setTipoUsuario(tipoUsuario);
+            model.addAttribute("usuario", u);
+            return "nuevoUsuario";
+        }else{
+            return "redirect:/login/error/";
+        }
     }
 
-    @GetMapping("/administrador/usuario/crear/")
-    public String doCrearUsuario( Model model){
-        UsuarioDTO u = new UsuarioDTO();
-        model.addAttribute("usuario", u);
-        return "nuevoUsuario";
-    }
 
     @GetMapping("/administrador/usuario/{idUsuario}/editar/")
-    public String doEditarUsuario(@PathVariable("idUsuario") Integer idUsuario, Model model){
-        UsuarioDTO u = usuarioService.buscarUsuario(idUsuario);
-        model.addAttribute("usuario", u);
-        return "nuevoUsuario";
+    public String doEditarUsuario(HttpSession session, Model model,
+                                  @PathVariable("idUsuario") Integer idUsuario){
+        if(this.comprobarAdmin(session,model)){
+            UsuarioDTO u = usuarioService.buscarUsuario(idUsuario);
+            model.addAttribute("usuario", u);
+            return "nuevoUsuario";
+        }else{
+            return "redirect:/login/error/";
+        }
     }
 
 
     @PostMapping("/administrador/usuario/guardar/")
-    public String doGuardarUsuario(@ModelAttribute("usuario") UsuarioDTO usuario, Model model){
-        if(usuario.getIdUsuario() != null){
-            usuarioService.modificarUsuario(usuario);
-        }else{
-            usuarioService.crearUsuario(usuario);
-        }
+    public String doGuardarUsuario(HttpSession session, Model model,
+                                   @ModelAttribute("usuario") UsuarioDTO usuario){
+        if(this.comprobarAdmin(session,model)){
+            if(usuario.getIdUsuario() != null){
+                usuarioService.modificarUsuario(usuario);
+            }else{
+                usuarioService.crearUsuario(usuario);
+            }
 
-        if(usuario.isLogin())
-            return "redirect:/";
-        else
             return "redirect:/administrador/";
+
+        }else{
+            return "redirect:/login/error/";
+        }
     }
+
 
     @GetMapping("/administrador/usuario/borrar/{idUsuario}")
-    public String doBorrarUsuario(@PathVariable("idUsuario") Integer idUsuario){
-        usuarioService.borrarUsuario(idUsuario);
-        return "redirect:/administrador/";
+    public String doBorrarUsuario(HttpSession session, Model model,
+                                  @PathVariable("idUsuario") Integer idUsuario){
+        if(this.comprobarAdmin(session,model)){
+            usuarioService.borrarUsuario(idUsuario);
+            return "redirect:/administrador/";
+        }else{
+            return "redirect:/login/error/";
+        }
     }
+
+
 }

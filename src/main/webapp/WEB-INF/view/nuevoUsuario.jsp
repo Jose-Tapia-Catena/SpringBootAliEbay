@@ -14,7 +14,10 @@
 </head>
 <body>
 <%
-  if (session.getAttribute("user") != null){
+  UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
+  String action = "/usuario/guardar/";
+  if (user!= null && user.getTipoUsuario().equals("administrador")){
+      action = "/administrador" + action;
 %>
   <jsp:include page="/WEB-INF/view/cabecera.jsp" />
 
@@ -26,7 +29,7 @@
   %>
   <h1>Datos usuario</h1>
   <%--@elvariable id="usuario" type="es.taw.aliebay.dto.UsuarioDTO"--%>
-  <form:form method="post" action="/administrador/usuario/guardar/" modelAttribute="usuario">
+  <form:form method="post" action="<%=action%>" modelAttribute="usuario">
     <form:hidden path="idUsuario"/>
     <table>
       <tr>
