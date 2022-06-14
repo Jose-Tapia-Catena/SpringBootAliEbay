@@ -1,8 +1,6 @@
 package es.taw.aliebay.Controller;
 
 import es.taw.aliebay.dto.*;
-import es.taw.aliebay.entity.Marketing;
-import es.taw.aliebay.entity.Mensaje;
 import es.taw.aliebay.service.ListaCompradorService;
 import es.taw.aliebay.service.MarketingService;
 import es.taw.aliebay.service.MensajeService;
@@ -39,6 +37,7 @@ public class MensajeController {
                          Model model){
         List<MensajeDTO> mensajes = mensajeService.listarMensajesByIdListaAndIdMarketing(idLista,idMarketing);
         model.addAttribute("mensajes", mensajes);
+
 
         model.addAttribute("idLista",idLista);
 
@@ -80,9 +79,9 @@ public class MensajeController {
         } else {
             UsuarioDTO usuario  = (UsuarioDTO) session.getAttribute("user");
             MarketingDTO marketingDTO = this.marketingService.buscarById(usuario.getIdUsuario());
-            ListacompradorDTO prueba = dto.getListaComprador();
+            ListacompradorDTO listaComprador = this.listaCompradorService.buscarListacomprador(dto.getListaComprador().getIdLista());
 
-            dto.setListaComprador(prueba);
+            dto.setListaComprador(listaComprador);
             dto.setMarketing(marketingDTO);
 
             this.mensajeService.crearMensaje(dto);
@@ -91,6 +90,18 @@ public class MensajeController {
                 + "/marketing/" + dto.getMarketing().getUsuario().getIdUsuario() + "/";
     }
 
+    @GetMapping("/marketing/mensaje/borrar/{idMensaje}")
+    public String borrarLista(HttpSession session,
+                              @PathVariable("idMensaje") Integer idMensaje){
+        MensajeDTO dto = this.mensajeService.buscarMensaje(idMensaje);
+        Integer idLista = dto.getListaComprador().getIdLista();
+        Integer idMarketing = dto.getMarketing().getUsuario().getIdUsuario();
+
+        this.mensajeService.borrarMensaje(idMensaje);
+
+        return "redirect:/marketing/listaCompradorMensajes/" + idLista
+                + "/marketing/" + idMarketing + "/";
+    }
 
 
 }

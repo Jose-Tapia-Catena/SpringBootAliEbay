@@ -36,10 +36,10 @@
 <%
 }else{
 %>
-<table border="1" width="80%">
+<table border="1"  width="70%">
     <tr>
         <th>Asunto</th>
-        <th>Productos</th>
+        <th>Id de los productos</th>
         <th>Descripcion</th>
         <th>Fecha</th>
         <th></th>
@@ -50,14 +50,17 @@
     %>
     <tr>
         <td><%= m.getAsunto() %></td>
+
+        <%
+            if (m.getProductoList() == null || m.getProductoList().isEmpty()){
+        %>
+        <td>No hay productos asignados a este mensaje</td>
+        <%
+        } else {
+        %>
         <td>
         <%
-            if (m.getProductoList() == null){
-        %>
-        No hay productos asignados a este mensaje </td>
-        <%
-            } else {
-            for (Integer productoId : m.getProductoList()){
+        for (Integer productoId : m.getProductoList()){
 
         %>
         <%= productoId %>
@@ -69,7 +72,7 @@
         <td><%= m.getDescripcion() %></td>
         <td> <%= m.getFecha() %></td>
         <td><a href="/marketing/mensaje/editar/<%= m.getId() %>">Editar</a></td>
-        <td><a href="">Borrar</a></td>
+        <td><a href="/marketing/mensaje/borrar/<%= m.getId() %>">Borrar</a></td>
     </tr>
     <%
         }
@@ -78,5 +81,7 @@
 <%
     }
 %>
+</br>
+<a href="/marketing/">Volver</a>
 </body>
 </html>

@@ -8,6 +8,7 @@ import es.taw.aliebay.dto.MensajeDTO;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -173,6 +174,15 @@ public class Mensaje implements Serializable {
         dto.setFecha(fecha.format(this.getFecha()));
         dto.setMarketing(this.idMarketing.toDTO());
         dto.setListaComprador(this.idListaComprador.toDTO());
+
+        List<Integer> idProductos = new ArrayList<>();
+        if (this.productoList != null){
+            for (Producto p : productoList){
+                idProductos.add(p.getIdProducto());
+            }
+        }
+        dto.setProductoList(idProductos);
+
         return dto;
     }
 }

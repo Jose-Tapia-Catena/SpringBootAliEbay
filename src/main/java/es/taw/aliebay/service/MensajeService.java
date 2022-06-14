@@ -71,6 +71,46 @@ public class MensajeService {
     }
 
     public void modificarMensaje(MensajeDTO dto) {
+        Mensaje mensaje = this.mensajeRepository.findById(dto.getId()).orElse(null);
+        mensaje.setDescripcion(dto.getDescripcion());
+        mensaje.setAsunto(dto.getAsunto());
+
+        SimpleDateFormat fecha = new SimpleDateFormat  ("dd/MM/yyyy HH:mm:ss");
+        try {
+            mensaje.setFecha(fecha.parse(dto.getFecha()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Marketing marketing =  this.marketingRepository.findById(dto.getMarketing().getUsuario().getIdUsuario()).orElse(null);
+        mensaje.setIdMarketing(marketing);
+        mensaje.setIdListaComprador(this.listacompradorRepository.findById(dto.getListaComprador().getIdLista()).orElse(null));
+
+        List<Producto> productos = new ArrayList<>();
+
+        for (Producto p : productoRepository.findAll()){
+            List<Mensaje> mensajes = p.getMensajeList();
+            //Si no ha sido seleccionado
+            if (!dto.getProductoList().contains(p.getIdProducto())){
+                //Antes estaba seleccionado
+                if (mensajes.contains(mensaje)){
+                    mensajes.remove(mensaje);
+                    p.setMensajeList(mensajes);
+                    productoRepository.save(p);
+                }
+            } else{
+                //Si ha sido seleccionado
+                productos.add(p);
+                if (!mensajes.contains(mensaje)){
+                    mensajes.add(mensaje);
+                    p.setMensajeList(mensajes);
+                    this.productoRepository.save(p);
+                }
+            }
+        }
+
+        mensaje.setProductoList(productos);
+        mensajeRepository.save(mensaje);
     }
 
     public void crearMensaje(MensajeDTO dto) {
@@ -107,5 +147,23 @@ public class MensajeService {
 
             productoRepository.save(p);
         }
+    }
+
+    public void borrarMensaje(Integer idMensaje) {
+        Mensaje m = this.mensajeRepository.findById(idMensaje).orElse(null);
+        for (Producto p : m.getProductoList()){
+            List<Mensaje> mensajes = p.getMensajeList();
+            mensajes.remove(m);
+            p.setMensajeList(mensajes);
+            this.productoRepository.save(p);
+        }
+
+        Listacomprador lc = m.getIdListaComprador();
+        List<Mensaje> mensajes = lc.getMensajeList();
+        mensajes.remove(m);
+        lc.setMensajeList(mensajes);
+        this.listacompradorRepository.save(lc);
+
+        mensajeRepository.delete(m);
     }
 }
