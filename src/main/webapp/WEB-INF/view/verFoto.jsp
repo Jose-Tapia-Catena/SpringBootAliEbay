@@ -16,7 +16,7 @@
             cabecera = "Favorito";
         }
     %>
-    <jsp:include page="/WEB-INF/view/cabecera<%=cabecera%>.jsp" />
+    <jsp:include page="cabecera.jsp"/>
 
     <title>Foto</title>
 </head>
@@ -28,4 +28,3 @@
 <img src="<%=url%>">
 </body>
 </html>
-
