@@ -186,6 +186,7 @@ public class AdminController extends AliEbaySessionController{
         if(this.comprobarAdmin(session,model)){
             List<ProductoDTO> productosVendidos = productoService.listarProductosComprador(idComprador);
             model.addAttribute("productosConVentas",productosVendidos);
+            model.addAttribute("comprador", idComprador);
             return "productosComprador";
         }else{
             return "redirect:/login/error/";

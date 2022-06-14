@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="java.util.List"%>
 <%@ page import="es.taw.aliebay.dto.ProductoDTO" %>
+<%@ page import="es.taw.aliebay.dto.UsuarioDTO" %>
 
 <!DOCTYPE html>
 <html>
@@ -17,19 +18,29 @@
 </head>
 <body>
 
-<jsp:include page="/WEB-INF/view/cabecera.jsp" />
-
+<%
+    UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
+    if (user.getTipoUsuario().equals("vendedor")){
+%>
+<%--
+  <jsp:include page="/WEB-INF/jsp/cabeceraVendedor.jsp" />
+--%>
 
 <%
+} else if(user.getTipoUsuario().equals("administrador")){
+%>
+    <jsp:include page="/WEB-INF/view/cabecera.jsp" />
+<%
+    }
     List<ProductoDTO> productosVendidos = (List)request.getAttribute("productosVendidos");
     List<ProductoDTO> productosNoVendidos = (List)request.getAttribute("productosNoVendidos");
     List<ProductoDTO> productosNoVendidosTerminados = (List)request.getAttribute("productosNoVendidosTerminados");
 
     String categoria = (String)request.getAttribute("categoria");
     Integer vendedor = (Integer) request.getAttribute("vendedor");
-    String llamada = "este usuario";
+    String llamada = "usted";
     if(categoria != null){
-        llamada = "categoria " + categoria;
+        llamada = "la categoria " + categoria;
     }else if(vendedor != null){
         llamada = "el vendedor con id " + vendedor;
     }
@@ -39,11 +50,10 @@
 <h2> No existen productos para <%=llamada%></h2>
 <%
 }else{
-    if(categoria != null || vendedor != null){
 %>
-<h2> Productos para <%=llamada %>: </h2>
+    <h2> Productos de <%=llamada %>: </h2>
 <%
-    } if(!productosNoVendidos.isEmpty()){
+    if(!productosNoVendidos.isEmpty()){
 %>
 
 <h3>Productos en venta:</h3>

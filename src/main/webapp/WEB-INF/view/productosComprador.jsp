@@ -30,7 +30,7 @@
   %>
     <jsp:include page="/WEB-INF/view/cabecera.jsp" />
 
-    <h1>Productos del comprador</h1>
+    <h1>Productos del comprador con ID <%=request.getAttribute("comprador")%></h1>
   <%
     }
     List<ProductoDTO> productosConVentas = (List)request.getAttribute("productosConVentas");
@@ -59,7 +59,7 @@
             %>
   <tr>
     <form method="post" action="/verFoto/">
-      <input type="hidden" name="url" value="<%=p.getuRLFoto()%>">
+      <input type="hidden" name="url" value="<%=pc.getuRLFoto()%>">
       <td><input type="submit" value="Ver foto"/></td>
     </form>
     <td><%= pc.getTitulo()%></td>
