@@ -58,7 +58,10 @@
 
             %>
   <tr>
-    <td><a href="/verFoto/<%=pc.getuRLFoto()%>">Ver Foto</a></td>
+    <form method="post" action="/verFoto/">
+      <input type="hidden" name="url" value="<%=p.getuRLFoto()%>">
+      <td><input type="submit" value="Ver foto"/></td>
+    </form>
     <td><%= pc.getTitulo()%></td>
     <td><%= pc.getDescripcion()%></td>
     <td><%= pc.getVendedor()%></td>
