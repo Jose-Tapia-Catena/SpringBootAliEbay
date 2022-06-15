@@ -6,7 +6,6 @@ import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.dto.UsuarioDTO;
 import es.taw.aliebay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

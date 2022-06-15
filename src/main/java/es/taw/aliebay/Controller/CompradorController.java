@@ -22,6 +22,7 @@ public class CompradorController extends AliEbaySessionController{
     }
 
     private ProductoService productoService;
+
     //Listar todos los productos del comprador
     @GetMapping("/comprador/")
     public String doInit (HttpSession session, Model model){
@@ -29,7 +30,7 @@ public class CompradorController extends AliEbaySessionController{
         if(this.comprobarComprador(session,model)){
             List<ProductoDTO> productosVendidos = productoService.listarProductosComprador(user.getIdUsuario());
             model.addAttribute("productosConVentas",productosVendidos);
-            return "productosComprador";
+            return "CproductosComprador";
         }else{
             return "redirect:/login/error/";
         }

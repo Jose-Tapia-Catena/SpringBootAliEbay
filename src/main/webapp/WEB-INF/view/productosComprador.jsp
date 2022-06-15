@@ -16,29 +16,18 @@
   <title>Productos comprados</title>
 </head>
 <body>
-  <%
-    UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
-    if (user.getTipoUsuario().equals("comprador")){
-  %>
-  <%--
-    <jsp:include page="/WEB-INF/jsp/cabeceraFavoritos.jsp" />
-  --%>
-    <h1>Mis productos</h1>
 
-  <%
-    } else if(user.getTipoUsuario().equals("administrador")){
-  %>
     <jsp:include page="/WEB-INF/view/cabecera.jsp" />
 
     <h1>Productos del comprador con ID <%=request.getAttribute("comprador")%></h1>
   <%
-    }
     List<ProductoDTO> productosConVentas = (List)request.getAttribute("productosConVentas");
     if(productosConVentas == null || productosConVentas.isEmpty()) {
   %>
-  <h2>No tiene ningún producto comprado</h2>
+
+    <h2>No tiene ningún producto comprado</h2>
   <%
-  } else {
+    } else {
   %>
 
 <table border="1" width="90%" style="text-align:center">

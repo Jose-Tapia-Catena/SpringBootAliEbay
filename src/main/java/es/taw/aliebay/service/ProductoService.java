@@ -59,7 +59,29 @@ public class ProductoService {
         this.compradorRepository = compradorRepository;
     }
 
+    public MensajeRepository getMensajeRepository() {
+        return mensajeRepository;
+    }
+    @Autowired
+    public void setMensajeRepository(MensajeRepository mensajeRepository) {
+        this.mensajeRepository = mensajeRepository;
+    }
+
+    private MensajeRepository mensajeRepository;
+
+    public PujaRepository getPujaRepository() {
+        return pujaRepository;
+    }
+    @Autowired
+    public void setPujaRepository(PujaRepository pujaRepository) {
+        this.pujaRepository = pujaRepository;
+    }
+
+    private PujaRepository pujaRepository;
+
+
     private CompradorRepository compradorRepository;
+
     public List<ProductoDTO> listarProductos(){
         List<Producto> productos = productoRepository.findAll();
         return this.listaEntityADTO(productos);
@@ -67,7 +89,6 @@ public class ProductoService {
 
     public List<ProductoDTO> listarProductosCategoria(String idCategoria){
         Categoria cat = categoriaRepository.findById(idCategoria).orElse(null);
-        //List<Producto> productos = productoRepository.findAllCategoria(cat);
         List<Producto> productos = cat.getProductoList();
         return this.listaEntityADTO(productos);
     }
@@ -85,14 +106,12 @@ public class ProductoService {
 
     public List<ProductoDTO> listarProductosVendedor(Integer idVendedor) {
         Vendedor vendedor = vendedorRepository.findById(idVendedor).orElse(null);
-        //List<Producto> productos = productoRepository.findAllVendedor(vendedor);
         List<Producto> productos = vendedor.getProductoList();
         return this.listaEntityADTO(productos);
     }
 
     public List<ProductoDTO> listarProductosComprador(Integer idComprador) {
         Comprador comprador = compradorRepository.findById(idComprador).orElse(null);
-        //List<Producto> productos = productoRepository.findAllComprador(comprador);
         List<Producto> productos = new ArrayList<>();
         for(Venta v:comprador.getVentaList()){
             productos.add(v.getProducto());
@@ -115,6 +134,22 @@ public class ProductoService {
             c.setProductoList(prodsCo);
             compradorRepository.save(c);
         }
+
+        //Borrar venta si tiene
+        if(p.getVenta() != null)
+            this.ventaRepository.delete(p.getVenta());
+
+        //Para todos los mensajes que lo tenian lo quitamos
+        for(Mensaje m: p.getMensajeList()){
+            List<Producto> prodsMe = m.getProductoList();
+            prodsMe.remove(p);
+            m.setProductoList(prodsMe);
+            mensajeRepository.save(m);
+        }
+
+        //Eliminamos todas las pujas que tenia el producto
+        pujaRepository.deleteAll(p.getPujaList());
+
         this.productoRepository.delete(p);
     }
 
@@ -124,6 +159,5 @@ public class ProductoService {
         borrarProducto(p);
         return vendedor;
     }
-
 
 }

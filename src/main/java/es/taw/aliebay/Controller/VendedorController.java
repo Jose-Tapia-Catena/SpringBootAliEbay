@@ -64,7 +64,7 @@ public class VendedorController extends AliEbaySessionController{
             model.addAttribute("productosVendidos", productosVendidos);
             model.addAttribute("productosNoVendidos", productosNoVendidos);
             model.addAttribute("productosNoVendidosTerminados", productosNoVendidosTerminados);
-            return "productos";
+            return "Vproductos";
 
         } else {
             return "redirect:/login/error/";

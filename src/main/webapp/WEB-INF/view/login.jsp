@@ -26,12 +26,22 @@
 %>
 <%--@elvariable id="usuario" type="es.taw.aliebay.dto.UsuarioDTO"--%>
 <form:form method="post" action="/autentica/" modelAttribute="usuario">
-    Usuario: <form:input path="userName" type="text"/><br>
-    Contraseña: <form:password path="password" /> <br>
-    <form:button>Enviar</form:button>
+    <table>
+        <tr>
+            <td>Usuario:</td>
+            <td><form:input path="userName" type="text"/></td>
+        </tr>
+        <tr>
+            <td>Contraseña:</td>
+            <td><form:password path="password" /></td>
+        </tr>
+        <tr>
+            <td><form:button>Enviar</form:button></td>
+        </tr>
+    </table>
 </form:form>
-    ¿No tienes una cuenta? <a href="/usuario/crear/">Regístrate</a>
-</form>
+<br>
+¿No tienes una cuenta? <a href="/usuario/crear/">Regístrate</a>
 </body>
 </html>
 
