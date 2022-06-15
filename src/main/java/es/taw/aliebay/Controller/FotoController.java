@@ -4,11 +4,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
-public class FotoController {
+public class FotoController extends AliEbaySessionController{
     @PostMapping("/verFoto/")
-    public String doVerFoto(@RequestParam("url") String url, Model model){
-        model.addAttribute("url",url);
-        return "verFoto";
+    public String doVerFoto(HttpSession session,Model model,
+                            @RequestParam("url") String url){
+        if(this.comprobarSesion(session,model)){
+            model.addAttribute("url",url);
+            return "verFoto";
+        }else{
+            return "redirect:/login/error/";
+        }
+
     }
 }

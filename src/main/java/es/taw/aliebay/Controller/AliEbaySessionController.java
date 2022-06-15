@@ -8,11 +8,11 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class AliEbaySessionController {
+
     protected boolean comprobarSesion (HttpSession session, Model model) {
         UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
         return user != null;
     }
-
 
     protected boolean comprobarAdmin (HttpSession session, Model model) {
         UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");

@@ -31,9 +31,10 @@ public class VendedorController extends AliEbaySessionController{
     //Productos vendedor
     @GetMapping("/vendedor/")
     public String doVerProductosVendedor(HttpSession session, Model model) {
-        UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
 
         if (this.comprobarVendedor(session, model)) {
+
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
 
             List<ProductoDTO> productos = productoService.listarProductosVendedor(user.getIdUsuario());
 
