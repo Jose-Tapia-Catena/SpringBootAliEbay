@@ -1,14 +1,8 @@
 package es.taw.aliebay.service;
 
-import es.taw.aliebay.dao.CompradorRepository;
-import es.taw.aliebay.dao.MarketingRepository;
-import es.taw.aliebay.dao.UsuarioRepository;
-import es.taw.aliebay.dao.VendedorRepository;
+import es.taw.aliebay.dao.*;
 import es.taw.aliebay.dto.UsuarioDTO;
-import es.taw.aliebay.entity.Comprador;
-import es.taw.aliebay.entity.Marketing;
-import es.taw.aliebay.entity.Usuario;
-import es.taw.aliebay.entity.Vendedor;
+import es.taw.aliebay.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +50,28 @@ public class UsuarioService {
     }
 
     private MarketingRepository marketingRepository;
+
+    public ProductoRepository getProductoRepository() {
+        return productoRepository;
+    }
+
+    @Autowired
+    public void setProductoRepository(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
+    }
+
+    private ProductoRepository productoRepository;
+
+    public VentaRepository getVentaRepository() {
+        return ventaRepository;
+    }
+
+    @Autowired
+    public void setVentaRepository(VentaRepository ventaRepository) {
+        this.ventaRepository = ventaRepository;
+    }
+
+    private VentaRepository ventaRepository;
 
     public List<UsuarioDTO> listarUsuarios(){
         List<Usuario> usuarios = usuarioRepository.findAll();
@@ -137,5 +153,23 @@ public class UsuarioService {
     public UsuarioDTO buscarUsuario(Integer idUsuario) {
         Usuario u = usuarioRepository.findById(idUsuario).orElse(null);
         return u.toDTO();
+    }
+
+    public void ajustarVentas() {
+        List<Producto> productosFinalizados = productoRepository.getProductosConPujaYFinalizados();
+        for(Producto p : productosFinalizados) {
+            /*
+            Puja puja = p.getPujaList().get(p.getPujaList().size() - 1);
+            Comprador comprador = compradorRepository.findById(puja.getIdComprador().getIdUsuario()).orElse(null);
+
+            Venta venta = new Venta();
+            venta.setIdProducto(puja.getIdProducto().getIdProducto());
+            venta.setIdComprador(comprador);
+            venta.setProducto(puja.getIdProducto());
+            venta.setFecha(p.getFechaFin());
+            venta.setPrecioVenta(puja.getPuja());
+            ventaRepository.save(venta);
+             */
+        }
     }
 }

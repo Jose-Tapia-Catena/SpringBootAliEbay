@@ -24,6 +24,7 @@ public class LoginController {
 
     @GetMapping("/")
     public String doInit(Model model){
+        usuarioService.ajustarVentas();
         model.addAttribute("usuario",new UsuarioDTO());
         return "login";
     }
