@@ -11,7 +11,7 @@ public class FotoController extends AliEbaySessionController{
     @PostMapping("/verFoto/")
     public String doVerFoto(HttpSession session,Model model,
                             @RequestParam("url") String url){
-        if(this.comprobarSesion(session,model)){
+        if(this.comprobarSesion(session)){
             model.addAttribute("url",url);
             return "verFoto";
         }else{

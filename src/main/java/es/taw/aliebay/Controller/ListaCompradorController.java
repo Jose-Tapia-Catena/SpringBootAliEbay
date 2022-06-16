@@ -44,7 +44,7 @@ public class ListaCompradorController extends AliEbaySessionController{
 
     @GetMapping("/marketing/")
     public String doInit(HttpSession session, Model model){
-        if (this.comprobarMarketing(session, model)){
+        if (this.comprobarMarketing(session)){
             List<ListacompradorDTO> listacompradores = this.listacompradorService.listarListaCompradores();
             model.addAttribute("listaCompradores", listacompradores);
 
@@ -60,7 +60,7 @@ public class ListaCompradorController extends AliEbaySessionController{
     public String editarLista(HttpSession session,
                               @PathVariable("idLista") Integer idLista,
                               Model model){
-        if (this.comprobarMarketing(session, model)){
+        if (this.comprobarMarketing(session)){
             ListacompradorDTO listaComprador = this.listacompradorService.buscarListacomprador(idLista);
             model.addAttribute("listaComprador", listaComprador);
 
@@ -78,7 +78,7 @@ public class ListaCompradorController extends AliEbaySessionController{
 
     @GetMapping("/marketing/listaCompradorCrear/")
     public String editarLista(HttpSession session, Model model){
-        if (this.comprobarMarketing(session, model)){
+        if (this.comprobarMarketing(session)){
             ListacompradorDTO listaComprador = new ListacompradorDTO();
             model.addAttribute("listaComprador", listaComprador);
 
@@ -97,9 +97,8 @@ public class ListaCompradorController extends AliEbaySessionController{
 
     @PostMapping("/marketing/listaCompradorGuardar/")
     public String editarLista(HttpSession session,
-                              @ModelAttribute("listaComprador")  ListacompradorDTO dto,
-                              Model model){
-        if (this.comprobarMarketing(session, model)){
+                              @ModelAttribute("listaComprador")  ListacompradorDTO dto){
+        if (this.comprobarMarketing(session)){
             if(dto.getIdLista() != null){
                 this.listacompradorService.modificarListacomprador(dto);
             }else{
@@ -114,9 +113,8 @@ public class ListaCompradorController extends AliEbaySessionController{
 
     @GetMapping("/marketing/listaCompradorBorrar/{idLista}/")
     public String borrarLista(HttpSession session,
-                              @PathVariable("idLista") Integer idLista,
-                              Model model){
-        if (this.comprobarMarketing(session, model)){
+                              @PathVariable("idLista") Integer idLista){
+        if (this.comprobarMarketing(session)){
             this.listacompradorService.borrarListacomprador(idLista);
             return "redirect:/marketing/";
         } else {

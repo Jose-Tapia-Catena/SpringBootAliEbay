@@ -27,7 +27,7 @@ public class CompradorController extends AliEbaySessionController{
     @GetMapping("/comprador/")
     public String doInit (HttpSession session, Model model){
 
-        if(this.comprobarComprador(session,model)){
+        if(this.comprobarComprador(session)){
             UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
             List<ProductoDTO> productosVendidos = productoService.listarProductosComprador(user.getIdUsuario());
             model.addAttribute("productosConVentas",productosVendidos);

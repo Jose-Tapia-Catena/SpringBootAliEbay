@@ -37,7 +37,7 @@ public class MensajeController  extends AliEbaySessionController{
                          @PathVariable("idMarketing") Integer idMarketing,
                          Model model){
 
-        if (this.comprobarMarketing(session, model)){
+        if (this.comprobarMarketing(session)){
             List<MensajeDTO> mensajes = mensajeService.listarMensajesByIdListaAndIdMarketing(idLista,idMarketing);
             model.addAttribute("mensajes", mensajes);
 
@@ -56,7 +56,7 @@ public class MensajeController  extends AliEbaySessionController{
                          @PathVariable("idMensaje") Integer idMensaje,
                          Model model){
 
-        if (this.comprobarMarketing(session, model)){
+        if (this.comprobarMarketing(session)){
             MensajeDTO dto = this.mensajeService.buscarMensaje(idMensaje);
             model.addAttribute("mensaje", dto);
 
@@ -74,7 +74,7 @@ public class MensajeController  extends AliEbaySessionController{
                            @PathVariable("idLista") Integer idLista,
                             Model model){
 
-        if (this.comprobarMarketing(session, model)){
+        if (this.comprobarMarketing(session)){
             MensajeDTO dto = new MensajeDTO();
             dto.setListaComprador(this.listaCompradorService.buscarListacomprador(idLista));
             model.addAttribute("mensaje", dto);
@@ -90,10 +90,9 @@ public class MensajeController  extends AliEbaySessionController{
 
     @PostMapping("/marketing/MensajeGuardar")
     public String guardar(HttpSession session,
-                          @ModelAttribute("mensaje") MensajeDTO dto,
-                          Model model){
+                          @ModelAttribute("mensaje") MensajeDTO dto){
 
-        if (this.comprobarMarketing(session, model)){
+        if (this.comprobarMarketing(session)){
             if (dto.getId() != null){
                 this.mensajeService.modificarMensaje(dto);
             } else {
@@ -115,10 +114,9 @@ public class MensajeController  extends AliEbaySessionController{
 
     @GetMapping("/marketing/mensaje/borrar/{idMensaje}")
     public String borrarLista(HttpSession session,
-                              @PathVariable("idMensaje") Integer idMensaje,
-                              Model model){
+                              @PathVariable("idMensaje") Integer idMensaje){
 
-        if (this.comprobarMarketing(session, model)){
+        if (this.comprobarMarketing(session)){
             MensajeDTO dto = this.mensajeService.buscarMensaje(idMensaje);
             Integer idLista = dto.getListaComprador().getIdLista();
             Integer idMarketing = dto.getMarketing().getUsuario().getIdUsuario();

@@ -77,7 +77,7 @@ public class AdminController extends AliEbaySessionController{
     //Listar todos los usuarios
     @GetMapping("/administrador/")
     public String doInit (HttpSession session,Model model){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             model.addAttribute("compradores", this.compradorService.listarCompradores());
             model.addAttribute("vendedores", this.vendedorService.listarVendedores());
             model.addAttribute("marketings", this.marketingService.listarMarketings());
@@ -91,7 +91,7 @@ public class AdminController extends AliEbaySessionController{
     //Categorias
     @GetMapping("/administrador/categorias/")
     public String doVerCategorias(HttpSession session,Model model){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             List<CategoriaDTO> categoriaList = this.categoriaService.listarCategorias();
             model.addAttribute("categorias", categoriaList);
             return "categorias";
@@ -103,7 +103,7 @@ public class AdminController extends AliEbaySessionController{
 
     @GetMapping("/administrador/categorias/nuevo/")
     public String doCrearCategoria(HttpSession session,Model model){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             model.addAttribute("categoria", new CategoriaDTO());
             return "nuevaCategoria";
         }else{
@@ -113,9 +113,9 @@ public class AdminController extends AliEbaySessionController{
 
 
     @PostMapping("/administrador/categorias/guardar/")
-    public String doGuardarCategoria(HttpSession session, Model model,
+    public String doGuardarCategoria(HttpSession session,
                                      @ModelAttribute("categoria") CategoriaDTO categoria){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             categoriaService.guardarCategoria(categoria.getIdCategoria());
             return "redirect:/administrador/categorias/";
         }else{
@@ -125,9 +125,9 @@ public class AdminController extends AliEbaySessionController{
 
 
     @GetMapping("/administrador/categorias/borrar/{idCategoria}/")
-    public String doBorrarCategoria(HttpSession session, Model model,
+    public String doBorrarCategoria(HttpSession session,
                                     @PathVariable("idCategoria") String idCategoria){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             categoriaService.borrarCategoria(idCategoria);
             return "redirect:/administrador/categorias/";
 
@@ -140,7 +140,7 @@ public class AdminController extends AliEbaySessionController{
     @GetMapping("/administrador/categorias/{idCategoria}/productos/")
     public String doVerProductosCategoria(HttpSession session, Model model,
                                           @PathVariable("idCategoria") String idCategoria){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             List<ProductoDTO> productos = productoService.listarProductosCategoria(idCategoria);
 
             List<ProductoDTO> productosVendidos = new ArrayList<>();
@@ -182,7 +182,7 @@ public class AdminController extends AliEbaySessionController{
     @GetMapping("/administrador/comprador/{idComprador}/productos/")
     public String doVerProductosComprador(HttpSession session, Model model,
                                           @PathVariable("idComprador") Integer idComprador){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             List<ProductoDTO> productosVendidos = productoService.listarProductosComprador(idComprador);
             model.addAttribute("productosConVentas",productosVendidos);
             model.addAttribute("comprador", idComprador);
@@ -194,9 +194,9 @@ public class AdminController extends AliEbaySessionController{
 
 
     @GetMapping("/administrador/comprador/productos/{idProducto}/borrar/")
-    public String doBorrarProductoComprador(HttpSession session,Model model,
+    public String doBorrarProductoComprador(HttpSession session,
                                             @PathVariable("idProducto") Integer idProducto){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             Integer comprador = productoService.borrarProductoComprador(idProducto);
             return "redirect:/administrador/comprador/"+comprador+ "/productos/";
         }else{
@@ -209,7 +209,7 @@ public class AdminController extends AliEbaySessionController{
     @GetMapping("/administrador/vendedor/{idVendedor}/productos/")
     public String doVerProductosVendedor(HttpSession session, Model model,
                                          @PathVariable("idVendedor") Integer idVendedor){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             List<ProductoDTO> productos = productoService.listarProductosVendedor(idVendedor);
 
             List<ProductoDTO> productosVendidos = new ArrayList<>();
@@ -249,9 +249,9 @@ public class AdminController extends AliEbaySessionController{
 
 
     @GetMapping("/administrador/vendedor/productos/{idProducto}/borrar/")
-    public String doBorrarProductoVendedor(HttpSession session, Model model,
+    public String doBorrarProductoVendedor(HttpSession session,
                                            @PathVariable("idProducto") Integer idProducto){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             Integer vendedor = productoService.borrarProductoVendedor(idProducto);
             return "redirect:/administrador/vendedor/"+vendedor+"/productos/";
         }else{
@@ -264,7 +264,7 @@ public class AdminController extends AliEbaySessionController{
     @GetMapping("/administrador/usuario/{tipoUsuario}/crear/")
     public String doCrearUsuario(HttpSession session, Model model,
                                  @PathVariable("tipoUsuario") String tipoUsuario){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             UsuarioDTO u = new UsuarioDTO();
             u.setTipoUsuario(tipoUsuario);
             model.addAttribute("usuario", u);
@@ -278,7 +278,7 @@ public class AdminController extends AliEbaySessionController{
     @GetMapping("/administrador/usuario/{idUsuario}/editar/")
     public String doEditarUsuario(HttpSession session, Model model,
                                   @PathVariable("idUsuario") Integer idUsuario){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             UsuarioDTO u = usuarioService.buscarUsuario(idUsuario);
             model.addAttribute("usuario", u);
             return "nuevoUsuario";
@@ -289,9 +289,9 @@ public class AdminController extends AliEbaySessionController{
 
 
     @PostMapping("/administrador/usuario/guardar/")
-    public String doGuardarUsuario(HttpSession session, Model model,
+    public String doGuardarUsuario(HttpSession session,
                                    @ModelAttribute("usuario") UsuarioDTO usuario){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             if(usuario.getIdUsuario() != null){
                 usuarioService.modificarUsuario(usuario);
             }else{
@@ -307,9 +307,9 @@ public class AdminController extends AliEbaySessionController{
 
 
     @GetMapping("/administrador/usuario/borrar/{idUsuario}")
-    public String doBorrarUsuario(HttpSession session, Model model,
+    public String doBorrarUsuario(HttpSession session,
                                   @PathVariable("idUsuario") Integer idUsuario){
-        if(this.comprobarAdmin(session,model)){
+        if(this.comprobarAdmin(session)){
             usuarioService.borrarUsuario(idUsuario);
             return "redirect:/administrador/";
         }else{

@@ -32,7 +32,7 @@ public class VendedorController extends AliEbaySessionController{
     @GetMapping("/vendedor/")
     public String doVerProductosVendedor(HttpSession session, Model model) {
 
-        if (this.comprobarVendedor(session, model)) {
+        if (this.comprobarVendedor(session)) {
 
             UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
 
