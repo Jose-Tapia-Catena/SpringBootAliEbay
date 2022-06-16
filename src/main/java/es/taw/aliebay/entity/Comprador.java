@@ -6,8 +6,10 @@ package es.taw.aliebay.entity;
 
 import es.taw.aliebay.dto.AdministradorDTO;
 import es.taw.aliebay.dto.CompradorDTO;
+import es.taw.aliebay.dto.ListacompradorDTO;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -151,6 +153,17 @@ public class Comprador implements Serializable {
     public CompradorDTO toDTO() {
         CompradorDTO dto = new CompradorDTO();
         dto.setUsuario(this.getUsuario().toDTO());
+        dto.setListacompradorList(toDTO(this.getListacompradorList()));
         return dto;
+    }
+
+    private List<ListacompradorDTO> toDTO(List<Listacomprador> lista) {
+        List<ListacompradorDTO> dtos = new ArrayList<>();
+        if (lista != null){
+            for (Listacomprador lc : lista){
+                dtos.add(lc.toDTO());
+            }
+        }
+        return dtos;
     }
 }

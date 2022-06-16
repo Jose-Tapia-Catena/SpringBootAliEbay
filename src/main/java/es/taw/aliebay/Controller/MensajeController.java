@@ -1,10 +1,7 @@
 package es.taw.aliebay.Controller;
 
 import es.taw.aliebay.dto.*;
-import es.taw.aliebay.service.ListaCompradorService;
-import es.taw.aliebay.service.MarketingService;
-import es.taw.aliebay.service.MensajeService;
-import es.taw.aliebay.service.ProductoService;
+import es.taw.aliebay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,6 +29,9 @@ public class MensajeController  extends AliEbaySessionController{
 
     @Autowired
     private ListaCompradorService listaCompradorService;
+
+    @Autowired
+    private CompradorService compradorService;
 
     @GetMapping("/marketing/listaCompradorMensajes/{idLista}/marketing/{idMarketing}")
     public String doInit(HttpSession session,
@@ -50,6 +51,23 @@ public class MensajeController  extends AliEbaySessionController{
             return "redirect:/login/error/";
 
         }
+    }
+
+    @GetMapping("/comprador/verMensajes/{idComprador}")
+    public String verMensajesComprador(@PathVariable("idComprador") Integer idComprador,
+                                       Model model){
+
+        CompradorDTO comprador = this.compradorService.getCompradorByID(idComprador);
+        List<Integer> idListaComprador = new ArrayList<>();
+        if (comprador.getListacompradorList() != null){
+            for (ListacompradorDTO listacompradorDTO : comprador.getListacompradorList()){
+                idListaComprador.add(listacompradorDTO.getIdLista());
+            }
+        }
+        List<MensajeDTO> mensajes = mensajeService.listarMensajesByComprador(idListaComprador);
+        model.addAttribute("mensajes", mensajes);
+
+        return "Cmensajes";
     }
 
     @GetMapping("/marketing/mensaje/editar/{idMensaje}")

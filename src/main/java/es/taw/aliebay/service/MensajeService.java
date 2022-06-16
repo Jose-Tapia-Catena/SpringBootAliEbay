@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,6 +35,12 @@ public class MensajeService {
 
     public List<MensajeDTO> listarMensajesByIdListaAndIdMarketing(Integer idLista, Integer idMarketing){
         List<Mensaje> mensajes = this.mensajeRepository.findByIdListaAndIdMarketing(idLista, idMarketing);
+        return listaEntityADTO(mensajes);
+    }
+
+
+    public List<MensajeDTO> listarMensajesByComprador(List<Integer> idComprador) {
+        List<Mensaje> mensajes = this.mensajeRepository.findByIdComprador(idComprador);
         return listaEntityADTO(mensajes);
     }
 

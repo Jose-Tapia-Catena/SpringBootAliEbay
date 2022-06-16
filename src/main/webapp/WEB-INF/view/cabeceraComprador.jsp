@@ -26,6 +26,7 @@
         <td>Session ID,  <%=user.getIdUsuario() %></td>
         <td><a href="/comprador/favoritos/">Productos favoritos</a></td>
         <td><a href="/comprador/productos/">Mis productos</a></td>
+        <td><a href="/comprador/verMensajes/<%= user.getIdUsuario()%>">Ver mensajes</a></td>
         <td><a href="/logout/">Salir</a></td>
     </tr>
 </table>

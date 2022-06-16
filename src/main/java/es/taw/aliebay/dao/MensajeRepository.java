@@ -13,4 +13,7 @@ public interface MensajeRepository extends JpaRepository<Mensaje, Integer> {
 
     @Query("Select m from Mensaje m where m.idListaComprador.idLista = :idLista and m.idMarketing.idUsuario = :idMarketing")
     public List<Mensaje> findByIdListaAndIdMarketing(@Param("idLista")Integer idLista, @Param("idMarketing")Integer idMarketing);
+
+    @Query("Select m from Mensaje m where m.idListaComprador.idLista IN (:lista)")
+    List<Mensaje> findByIdComprador(@Param("lista") List<Integer> idComprador);
 }
