@@ -14,7 +14,7 @@
   <title>Editar-Crear Lista Comprador</title>
 </head>
 <body>
-
+<jsp:include page="cabeceraMarketing.jsp"/>
 <h1>Listas de compradores</h1>
 <%--@elvariable id="listaComprador" type="es.taw.aliebay.dto.ListacompradorDTO"--%>
 <form:form modelAttribute="listaComprador" action="/marketing/listaCompradorGuardar/">

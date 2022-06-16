@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-public class MensajeController {
+public class MensajeController  extends AliEbaySessionController{
 
     @Autowired
     private MensajeService mensajeService;
@@ -32,75 +32,104 @@ public class MensajeController {
     private ListaCompradorService listaCompradorService;
 
     @GetMapping("/marketing/listaCompradorMensajes/{idLista}/marketing/{idMarketing}")
-    public String doInit(@PathVariable("idLista") Integer idLista,
+    public String doInit(HttpSession session,
+                         @PathVariable("idLista") Integer idLista,
                          @PathVariable("idMarketing") Integer idMarketing,
                          Model model){
-        List<MensajeDTO> mensajes = mensajeService.listarMensajesByIdListaAndIdMarketing(idLista,idMarketing);
-        model.addAttribute("mensajes", mensajes);
+
+        if (this.comprobarMarketing(session, model)){
+            List<MensajeDTO> mensajes = mensajeService.listarMensajesByIdListaAndIdMarketing(idLista,idMarketing);
+            model.addAttribute("mensajes", mensajes);
 
 
-        model.addAttribute("idLista",idLista);
+            model.addAttribute("idLista",idLista);
 
-        return "mensajeComprador";
+            return "mensajeComprador";
+        } else {
+            return "redirect:/login/error/";
+
+        }
     }
 
     @GetMapping("/marketing/mensaje/editar/{idMensaje}")
-    public String doEdit(@PathVariable("idMensaje") Integer idMensaje,
+    public String doEdit(HttpSession session,
+                         @PathVariable("idMensaje") Integer idMensaje,
                          Model model){
 
-        MensajeDTO dto = this.mensajeService.buscarMensaje(idMensaje);
-        model.addAttribute("mensaje", dto);
+        if (this.comprobarMarketing(session, model)){
+            MensajeDTO dto = this.mensajeService.buscarMensaje(idMensaje);
+            model.addAttribute("mensaje", dto);
 
-        List<ProductoDTO> productos = this.productoService.listarProductos();
-        model.addAttribute("productos", productos);
+            List<ProductoDTO> productos = this.productoService.listarProductos();
+            model.addAttribute("productos", productos);
 
-        return "mensaje";
+            return "mensaje";
+        } else {
+            return "redirect:/login/error/";
+        }
     }
 
     @GetMapping("/marketing/mensaje/crear/{idLista}")
-    public String doCreate(@PathVariable("idLista") Integer idLista,
-            Model model){
+    public String doCreate(HttpSession session,
+                           @PathVariable("idLista") Integer idLista,
+                            Model model){
 
-        MensajeDTO dto = new MensajeDTO();
-        dto.setListaComprador(this.listaCompradorService.buscarListacomprador(idLista));
-        model.addAttribute("mensaje", dto);
+        if (this.comprobarMarketing(session, model)){
+            MensajeDTO dto = new MensajeDTO();
+            dto.setListaComprador(this.listaCompradorService.buscarListacomprador(idLista));
+            model.addAttribute("mensaje", dto);
 
-        List<ProductoDTO> productos = this.productoService.listarProductos();
-        model.addAttribute("productos", productos);
+            List<ProductoDTO> productos = this.productoService.listarProductos();
+            model.addAttribute("productos", productos);
 
-        return "mensaje";
+            return "mensaje";
+        } else {
+            return "redirect:/login/error/";
+        }
     }
 
     @PostMapping("/marketing/MensajeGuardar")
-    public String guardar(@ModelAttribute("mensaje") MensajeDTO dto,
-                          HttpSession session){
-        if (dto.getId() != null){
-            this.mensajeService.modificarMensaje(dto);
+    public String guardar(HttpSession session,
+                          @ModelAttribute("mensaje") MensajeDTO dto,
+                          Model model){
+
+        if (this.comprobarMarketing(session, model)){
+            if (dto.getId() != null){
+                this.mensajeService.modificarMensaje(dto);
+            } else {
+                UsuarioDTO usuario  = (UsuarioDTO) session.getAttribute("user");
+                MarketingDTO marketingDTO = this.marketingService.buscarById(usuario.getIdUsuario());
+                ListacompradorDTO listaComprador = this.listaCompradorService.buscarListacomprador(dto.getListaComprador().getIdLista());
+
+                dto.setListaComprador(listaComprador);
+                dto.setMarketing(marketingDTO);
+
+                this.mensajeService.crearMensaje(dto);
+            }
+            return "redirect:/marketing/listaCompradorMensajes/" + dto.getListaComprador().getIdLista()
+                    + "/marketing/" + dto.getMarketing().getUsuario().getIdUsuario() + "/";
         } else {
-            UsuarioDTO usuario  = (UsuarioDTO) session.getAttribute("user");
-            MarketingDTO marketingDTO = this.marketingService.buscarById(usuario.getIdUsuario());
-            ListacompradorDTO listaComprador = this.listaCompradorService.buscarListacomprador(dto.getListaComprador().getIdLista());
-
-            dto.setListaComprador(listaComprador);
-            dto.setMarketing(marketingDTO);
-
-            this.mensajeService.crearMensaje(dto);
+            return "redirect:/login/error/";
         }
-        return "redirect:/marketing/listaCompradorMensajes/" + dto.getListaComprador().getIdLista()
-                + "/marketing/" + dto.getMarketing().getUsuario().getIdUsuario() + "/";
     }
 
     @GetMapping("/marketing/mensaje/borrar/{idMensaje}")
     public String borrarLista(HttpSession session,
-                              @PathVariable("idMensaje") Integer idMensaje){
-        MensajeDTO dto = this.mensajeService.buscarMensaje(idMensaje);
-        Integer idLista = dto.getListaComprador().getIdLista();
-        Integer idMarketing = dto.getMarketing().getUsuario().getIdUsuario();
+                              @PathVariable("idMensaje") Integer idMensaje,
+                              Model model){
 
-        this.mensajeService.borrarMensaje(idMensaje);
+        if (this.comprobarMarketing(session, model)){
+            MensajeDTO dto = this.mensajeService.buscarMensaje(idMensaje);
+            Integer idLista = dto.getListaComprador().getIdLista();
+            Integer idMarketing = dto.getMarketing().getUsuario().getIdUsuario();
 
-        return "redirect:/marketing/listaCompradorMensajes/" + idLista
-                + "/marketing/" + idMarketing + "/";
+            this.mensajeService.borrarMensaje(idMensaje);
+
+            return "redirect:/marketing/listaCompradorMensajes/" + idLista
+                    + "/marketing/" + idMarketing + "/";
+        } else {
+            return "redirect:/login/error/";
+        }
     }
 
 

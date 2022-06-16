@@ -23,6 +23,7 @@
     <title>Lista de mensajes</title>
 </head>
 <body>
+<jsp:include page="cabeceraMarketing.jsp"/>
 <h1>Lista de mensajes</h1>
 <%
     Integer idLista = (Integer) request.getAttribute("idLista");

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class ListaCompradorController {
+public class ListaCompradorController extends AliEbaySessionController{
 
     private ListaCompradorService listacompradorService;
     private CompradorService compradorService;
@@ -43,69 +43,84 @@ public class ListaCompradorController {
     }
 
     @GetMapping("/marketing/")
-    public String doInit(HttpSession httpSession, Model model){
+    public String doInit(HttpSession session, Model model){
+        if (this.comprobarMarketing(session, model)){
+            List<ListacompradorDTO> listacompradores = this.listacompradorService.listarListaCompradores();
+            model.addAttribute("listaCompradores", listacompradores);
 
-        List<ListacompradorDTO> listacompradores = this.listacompradorService.listarListaCompradores();
-        model.addAttribute("listaCompradores", listacompradores);
-
-        UsuarioDTO user = (UsuarioDTO) httpSession.getAttribute("user");
-        model.addAttribute("marketing", user);
-
-        return "listaCompradores";
-    }
-
-    @GetMapping("/marketing/listaCompradorMensajes/{idLista}/")
-    public String verMensajes(){
-        return null;
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
+            model.addAttribute("marketing", user);
+            return "listaCompradores";
+        } else {
+            return "redirect:/login/error/";
+        }
     }
 
     @GetMapping("/marketing/listaCompradorEditar/{idLista}/")
-    public String editarLista(@PathVariable("idLista") Integer idLista,
+    public String editarLista(HttpSession session,
+                              @PathVariable("idLista") Integer idLista,
                               Model model){
+        if (this.comprobarMarketing(session, model)){
+            ListacompradorDTO listaComprador = this.listacompradorService.buscarListacomprador(idLista);
+            model.addAttribute("listaComprador", listaComprador);
 
-        ListacompradorDTO listaComprador = this.listacompradorService.buscarListacomprador(idLista);
-        model.addAttribute("listaComprador", listaComprador);
+            List<CompradorDTO> compradores = compradorService.listarCompradores();
+            model.addAttribute("compradores", compradores);
 
-        List<CompradorDTO> compradores = compradorService.listarCompradores();
-        model.addAttribute("compradores", compradores);
+            List<CompradorDTO> compradoresLista = new ArrayList<>();
+            model.addAttribute("compradoresLista", compradoresLista);
 
-        List<CompradorDTO> compradoresLista = new ArrayList<>();
-        model.addAttribute("compradoresLista", compradoresLista);
-
-        return "listaComprador";
+            return "listaComprador";
+        } else {
+            return "redirect:/login/error/";
+        }
     }
 
     @GetMapping("/marketing/listaCompradorCrear/")
     public String editarLista(HttpSession session, Model model){
+        if (this.comprobarMarketing(session, model)){
+            ListacompradorDTO listaComprador = new ListacompradorDTO();
+            model.addAttribute("listaComprador", listaComprador);
 
-        ListacompradorDTO listaComprador = new ListacompradorDTO();
-        model.addAttribute("listaComprador", listaComprador);
+            List<CompradorDTO> compradores = compradorService.listarCompradores();
+            model.addAttribute("compradores", compradores);
 
-        List<CompradorDTO> compradores = compradorService.listarCompradores();
-        model.addAttribute("compradores", compradores);
+            List<CompradorDTO> compradoresLista = new ArrayList<>();
+            model.addAttribute("compradoresLista", compradoresLista);
 
-        List<CompradorDTO> compradoresLista = new ArrayList<>();
-        model.addAttribute("compradoresLista", compradoresLista);
-
-        return "listaComprador";
+            return "listaComprador";
+        } else {
+            return "redirect:/login/error/";
+        }
     }
 
 
     @PostMapping("/marketing/listaCompradorGuardar/")
-    public String editarLista(@ModelAttribute("listaComprador")  ListacompradorDTO dto){
-        if(dto.getIdLista() != null){
-            this.listacompradorService.modificarListacomprador(dto);
-        }else{
-            this.listacompradorService.crearListacomprador(dto);
+    public String editarLista(HttpSession session,
+                              @ModelAttribute("listaComprador")  ListacompradorDTO dto,
+                              Model model){
+        if (this.comprobarMarketing(session, model)){
+            if(dto.getIdLista() != null){
+                this.listacompradorService.modificarListacomprador(dto);
+            }else{
+                this.listacompradorService.crearListacomprador(dto);
+            }
+            return "redirect:/marketing/";
+        } else {
+            return "redirect:/login/error/";
         }
-        return "redirect:/marketing/";
     }
 
 
     @GetMapping("/marketing/listaCompradorBorrar/{idLista}/")
     public String borrarLista(HttpSession session,
-                              @PathVariable("idLista") Integer idLista){
-        this.listacompradorService.borrarListacomprador(idLista);
-        return "redirect:/marketing/";
+                              @PathVariable("idLista") Integer idLista,
+                              Model model){
+        if (this.comprobarMarketing(session, model)){
+            this.listacompradorService.borrarListacomprador(idLista);
+            return "redirect:/marketing/";
+        } else {
+            return "redirect:/login/error/";
+        }
     }
 }

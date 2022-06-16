@@ -12,6 +12,7 @@
     <title>Mensaje</title>
 </head>
 <body>
+<jsp:include page="cabeceraMarketing.jsp"/>
 <h1>Editar informacion del mensaje</h1>
 <%--@elvariable id="mensaje" type="es.taw.aliebay.dto.MensajeDTO"--%>
     <form:form modelAttribute="mensaje" action="/marketing/MensajeGuardar">
@@ -21,6 +22,8 @@
 
         Asunto: <form:input path="asunto"/></br></br>
         Descripcion: <form:input path="descripcion"/></br></br>
+        <div style="font-size:15px; font-palette: light; width: 10%">Formato de la fecha: dd/MM/yyyy HH:mm:ss</div>
+        </br>
         Fecha: <form:input path="fecha"/></br></br>
         Productos:</br>
         <form:checkboxes path="productoList" items="${productos}" itemLabel="titulo" itemValue="idProducto"/></br></br>

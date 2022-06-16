@@ -16,6 +16,7 @@
     <title>Marketing</title>
 </head>
 <body>
+<jsp:include page="cabeceraMarketing.jsp"/>
 <%
     UsuarioDTO usuario = (UsuarioDTO) request.getAttribute("marketing");
 %>
