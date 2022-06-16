@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -70,22 +71,13 @@ public class MensajeService {
         return lista;
     }
 
-    public void modificarMensaje(MensajeDTO dto) {
+    public void modificarMensaje(MensajeDTO dto) throws ParseException {
         Mensaje mensaje = this.mensajeRepository.findById(dto.getId()).orElse(null);
         mensaje.setDescripcion(dto.getDescripcion());
         mensaje.setAsunto(dto.getAsunto());
 
-        SimpleDateFormat fecha = new SimpleDateFormat  ("dd/MM/yyyy HH:mm:ss");
-        try {
-            mensaje.setFecha(fecha.parse(dto.getFecha()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Marketing marketing =  this.marketingRepository.findById(dto.getMarketing().getUsuario().getIdUsuario()).orElse(null);
-        mensaje.setIdMarketing(marketing);
-        mensaje.setIdListaComprador(this.listacompradorRepository.findById(dto.getListaComprador().getIdLista()).orElse(null));
-
+        SimpleDateFormat fecha = new SimpleDateFormat  ("yyyy-MM-dd HH:mm");
+        mensaje.setFecha(fecha.parse(dto.getDate() + " " + dto.getTime()));
         List<Producto> productos = new ArrayList<>();
 
         for (Producto p : productoRepository.findAll()){
@@ -113,14 +105,14 @@ public class MensajeService {
         mensajeRepository.save(mensaje);
     }
 
-    public void crearMensaje(MensajeDTO dto) {
+    public void  crearMensaje(MensajeDTO dto) {
         Mensaje mensaje = new Mensaje();
         mensaje.setDescripcion(dto.getDescripcion());
         mensaje.setAsunto(dto.getAsunto());
 
-        SimpleDateFormat fecha = new SimpleDateFormat  ("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat fecha = new SimpleDateFormat  ("yyyy-MM-dd HH:mm");
         try {
-            mensaje.setFecha(fecha.parse(dto.getFecha()));
+            mensaje.setFecha(fecha.parse(dto.getDate() + " " + dto.getTime()));
         } catch (ParseException e) {
             e.printStackTrace();
         }

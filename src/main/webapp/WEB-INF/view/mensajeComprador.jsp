@@ -71,7 +71,7 @@
             }
         %>
         <td><%= m.getDescripcion() %></td>
-        <td> <%= m.getFecha() %></td>
+        <td> <%= m.getDate() + " " + m.getTime() %></td>
         <td><a href="/marketing/mensaje/editar/<%= m.getId() %>">Editar</a></td>
         <td><a href="/marketing/mensaje/borrar/<%= m.getId() %>">Borrar</a></td>
     </tr>

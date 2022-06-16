@@ -170,8 +170,10 @@ public class Mensaje implements Serializable {
         dto.setAsunto(this.asunto);
         dto.setDescripcion(this.descripcion);
 
-        SimpleDateFormat fecha = new SimpleDateFormat  ("dd/MM/yyyy HH:mm:ss");
-        dto.setFecha(fecha.format(this.getFecha()));
+        SimpleDateFormat date = new SimpleDateFormat  ("yyyy-MM-dd");
+        SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+        dto.setDate(date.format(this.getFecha()));
+        dto.setTime(time.format(this.getFecha()));
         dto.setMarketing(this.idMarketing.toDTO());
         dto.setListaComprador(this.idListaComprador.toDTO());
 

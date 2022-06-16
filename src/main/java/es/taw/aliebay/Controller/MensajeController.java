@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -90,7 +91,7 @@ public class MensajeController  extends AliEbaySessionController{
 
     @PostMapping("/marketing/MensajeGuardar")
     public String guardar(HttpSession session,
-                          @ModelAttribute("mensaje") MensajeDTO dto){
+                          @ModelAttribute("mensaje") MensajeDTO dto) throws ParseException {
 
         if (this.comprobarMarketing(session)){
             if (dto.getId() != null){

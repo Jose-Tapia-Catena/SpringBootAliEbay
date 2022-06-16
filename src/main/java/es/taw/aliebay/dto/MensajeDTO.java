@@ -20,12 +20,20 @@ public class MensajeDTO {
         this.descripcion = descripcion;
     }
 
-    public String getFecha() {
-        return fecha;
+    public String getDate() {
+        return date;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getAsunto() {
@@ -62,7 +70,8 @@ public class MensajeDTO {
 
     private Integer id;
     private String descripcion;
-    private String fecha;
+    private String date;
+    private String time;
     private String asunto;
     private List<Integer> productoList;
     private ListacompradorDTO listaComprador;
