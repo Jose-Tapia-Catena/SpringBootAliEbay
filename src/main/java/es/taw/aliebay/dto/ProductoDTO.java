@@ -118,4 +118,19 @@ public class ProductoDTO {
     private VentaDTO venta;
     private String categoria;
     private Integer vendedor;
+
+    public PujaDTO getPuja() { return puja; }
+
+    public void setPuja(PujaDTO puja) { this.puja = puja; }
+
+    public List<CompradorDTO> getCompradorFavorito() {
+        return compradorFavorito;
+    }
+
+    public void setCompradorFavorito(List<CompradorDTO> compradorFavorito) {
+        this.compradorFavorito = compradorFavorito;
+    }
+
+    private PujaDTO puja;
+    private List<CompradorDTO> compradorFavorito;
 }

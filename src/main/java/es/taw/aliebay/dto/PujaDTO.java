@@ -20,33 +20,24 @@ public class PujaDTO {
         this.puja = puja;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public CompradorDTO getComprador() {
-        return comprador;
-    }
-
-    public void setComprador(CompradorDTO comprador) {
-        this.comprador = comprador;
-    }
-
-    public ProductoDTO getProducto() {
+    public Integer getProducto() {
         return producto;
     }
 
-    public void setProducto(ProductoDTO producto) {
+    public void setProducto(Integer producto) {
         this.producto = producto;
+    }
+
+    public Integer getCompador() {
+        return comprador;
+    }
+
+    public void setCompador(Integer comprador) {
+        this.comprador = comprador;
     }
 
     private Integer idPuja;
     private Float puja;
-    private Date fecha;
-    private CompradorDTO comprador;
-    private ProductoDTO producto;
+    private Integer producto;
+    private Integer comprador;
 }

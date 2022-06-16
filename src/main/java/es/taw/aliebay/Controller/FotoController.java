@@ -19,4 +19,16 @@ public class FotoController extends AliEbaySessionController{
         }
 
     }
+
+    @PostMapping("/verFotoComprador/")
+    public String doVerFotoComprador(HttpSession session,Model model,
+                                     @RequestParam("url") String url){
+        if(this.comprobarSesion(session)){
+            model.addAttribute("url",url);
+            return "verFotoComprador";
+        }else{
+            return "redirect:/login/error/";
+        }
+
+    }
 }

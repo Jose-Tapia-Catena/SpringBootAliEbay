@@ -15,9 +15,7 @@
     <title>Productos comprados</title>
 </head>
 <body>
-<%--
-  <jsp:include page="/WEB-INF/jsp/cabeceraFavoritos.jsp" />
---%>
+<jsp:include page="cabeceraFavoritos.jsp" />
 <h1>Mis productos</h1>
 
 <%
@@ -42,7 +40,7 @@
         <th></th><!--- Borrar --->
     </tr>
         <%
-                for (ProductoDTO pc:productosConVentas) {
+                for (ProductoDTO pc : productosConVentas) {
 
             %>
     <tr>
@@ -57,7 +55,7 @@
         <td><%= pc.getVenta().getFecha()%></td>
         <td><%= pc.getPrecioSalida()%> €</td>
         <td><%= pc.getVenta().getPrecioVenta()%> €</td>
-        <td><a href="/comprador/productos/<%=pc.getIdProducto() %>/borrar/"> Borrar </a></td>
+        <td><a href="/comprador/productos/borrar/<%=pc.getIdProducto() %>/"> Borrar </a></td>
     </tr>
         <%
                     }

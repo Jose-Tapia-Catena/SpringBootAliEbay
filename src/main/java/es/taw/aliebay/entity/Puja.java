@@ -4,8 +4,15 @@
  */
 package es.taw.aliebay.entity;
 
+import es.taw.aliebay.dto.CompradorDTO;
+import es.taw.aliebay.dto.ProductoDTO;
+import es.taw.aliebay.dto.PujaDTO;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -124,6 +131,15 @@ public class Puja implements Serializable {
     @Override
     public String toString() {
         return "a.entity.Puja[ idPuja=" + idPuja + " ]";
+    }
+
+    public PujaDTO toDTO() {
+        PujaDTO dto = new PujaDTO();
+        dto.setProducto(this.getIdProducto().getIdProducto());
+        dto.setPuja(this.getPuja());
+        dto.setCompador(this.getIdComprador().getIdUsuario());
+
+        return dto;
     }
     
 }

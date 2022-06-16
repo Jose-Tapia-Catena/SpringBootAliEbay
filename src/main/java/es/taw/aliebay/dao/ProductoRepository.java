@@ -1,5 +1,6 @@
 package es.taw.aliebay.dao;
 
+import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.entity.Categoria;
 import es.taw.aliebay.entity.Comprador;
 import es.taw.aliebay.entity.Producto;
@@ -21,4 +22,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     @Query("SELECT p FROM Producto p WHERE p.venta.idComprador = :comprador")
     List<Producto> findAllComprador(@Param("comprador") Comprador comprador);
+
+    @Query("SELECT p FROM Producto p WHERE p.fechaFin > cast(now() as date)")
+    List<Producto> findProductosDisponibles();
 }

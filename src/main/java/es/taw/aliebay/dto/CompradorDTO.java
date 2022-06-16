@@ -1,5 +1,7 @@
 package es.taw.aliebay.dto;
 
+import es.taw.aliebay.entity.Comprador;
+
 import java.util.List;
 
 public class CompradorDTO {
@@ -41,6 +43,20 @@ public class CompradorDTO {
 
     public void setPujaList(List<PujaDTO> pujaList) {
         this.pujaList = pujaList;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof CompradorDTO)) {
+            return false;
+        }
+        CompradorDTO other = (CompradorDTO) object;
+        if ((this.usuario.getIdUsuario() == null && other.usuario.getIdUsuario() != null) ||
+                (this.usuario.getIdUsuario() != null && !this.usuario.getIdUsuario().equals(other.usuario.getIdUsuario()))) {
+            return false;
+        }
+        return true;
     }
 
     private UsuarioDTO usuario;

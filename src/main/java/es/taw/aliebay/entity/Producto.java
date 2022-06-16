@@ -4,13 +4,11 @@
  */
 package es.taw.aliebay.entity;
 
-import es.taw.aliebay.dto.CategoriaDTO;
-import es.taw.aliebay.dto.ProductoDTO;
-import es.taw.aliebay.dto.VendedorDTO;
-import es.taw.aliebay.dto.VentaDTO;
+import es.taw.aliebay.dto.*;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -253,6 +251,20 @@ public class Producto implements Serializable {
 
         if(this.venta != null)
             dto.setVenta(this.venta.toDTO());
+
+        List<Puja> pujas = this.getPujaList();
+        if(pujas != null && !pujas.isEmpty()) {
+            dto.setPuja(pujas.get(pujas.size()-1).toDTO());
+        }
+
+        List<Comprador> compradores = this.getCompradorList();
+        if(compradores != null && !compradores.isEmpty()) {
+            List<CompradorDTO> compradoresDTO = new ArrayList<>();
+            for(Comprador c : compradores) {
+                compradoresDTO.add(c.toDTO());
+            }
+            dto.setCompradorFavorito(compradoresDTO);
+        }
 
         return dto;
     }

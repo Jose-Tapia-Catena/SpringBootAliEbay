@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductoService {
@@ -26,6 +27,7 @@ public class ProductoService {
     public ProductoRepository getProductoRepository() {
         return productoRepository;
     }
+
     @Autowired
     public void setProductoRepository(ProductoRepository productoRepository) {
         this.productoRepository = productoRepository;
@@ -84,6 +86,11 @@ public class ProductoService {
 
     private CompradorRepository compradorRepository;
 
+    public ProductoDTO getProductoByID(Integer idProducto) {
+        Producto producto = productoRepository.findById(idProducto).orElse(null);
+        return producto.toDTO();
+    }
+
     public List<ProductoDTO> listarProductos(){
         List<Producto> productos = productoRepository.findAll();
         return this.listaEntityADTO(productos);
@@ -118,6 +125,12 @@ public class ProductoService {
         for(Venta v:comprador.getVentaList()){
             productos.add(v.getProducto());
         }
+        return this.listaEntityADTO(productos);
+    }
+
+    public List<ProductoDTO> listarProductosDisponibles() {
+        List<Producto> productos = productoRepository.findProductosDisponibles();
+
         return this.listaEntityADTO(productos);
     }
 
@@ -180,4 +193,9 @@ public class ProductoService {
         productoRepository.flush();
     }
 
+    public List<ProductoDTO> getProductosFavoritosByID(Integer idUsuario) {
+        Comprador comprador = compradorRepository.findById(idUsuario).orElse(null);
+        List<Producto> productos = comprador.getProductoList();
+        return this.listaEntityADTO(productos);
+    }
 }
