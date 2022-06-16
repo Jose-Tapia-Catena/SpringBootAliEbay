@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="java.util.List"%>
 <%@ page import="es.taw.aliebay.dto.ProductoDTO" %>
+<%@ page import="es.taw.aliebay.dto.UsuarioDTO" %>
 
 <!DOCTYPE html>
 <html>
@@ -25,12 +26,15 @@
     List<ProductoDTO> productosNoVendidos = (List)request.getAttribute("productosNoVendidos");
     List<ProductoDTO> productosNoVendidosTerminados = (List)request.getAttribute("productosNoVendidosTerminados");
 
+
     if(productosVendidos.isEmpty() && productosNoVendidos.isEmpty() && productosNoVendidosTerminados.isEmpty()){
 %>
 <h2> Usted no dispone de ningún producto</h2>
 <%
 }else{
 %>
+<a href="/vendedor/productos/crear/">Crear Nuevo Producto</a><br/>
+
 <h2> Sus productos: </h2>
 <%
     if(!productosNoVendidos.isEmpty()){

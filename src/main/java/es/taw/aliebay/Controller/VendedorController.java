@@ -2,12 +2,15 @@ package es.taw.aliebay.Controller;
 
 import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.dto.UsuarioDTO;
+import es.taw.aliebay.entity.Producto;
 import es.taw.aliebay.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -70,5 +73,19 @@ public class VendedorController extends AliEbaySessionController{
         } else {
             return "redirect:/login/error/";
         }
+    }
+
+    @GetMapping("/vendedor/productos/crear/")
+    public String doCrearProductoVendedor(HttpSession session, Model model){
+        ProductoDTO p = new ProductoDTO();
+        model.addAttribute("producto", p);
+        return "nuevoProducto";
+    }
+
+    @PostMapping("vendedor/productos/guardar/")
+    public String doGuardarProductoVendedor(HttpSession session, Model model,
+                                          @ModelAttribute("producto") ProductoDTO producto){
+        productoService.crearProductoVendedor(producto);
+        return "redirect:/";
     }
 }
