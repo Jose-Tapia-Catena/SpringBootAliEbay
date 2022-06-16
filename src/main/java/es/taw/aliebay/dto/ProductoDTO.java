@@ -46,22 +46,6 @@ public class ProductoDTO {
         this.uRLFoto = uRLFoto;
     }
 
-    public String getFechaSalida() {
-        return fechaSalida;
-    }
-
-    public void setFechaSalida(String fechaSalida) {
-        this.fechaSalida = fechaSalida;
-    }
-
-    public String getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(String fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-
     public VentaDTO getVenta() {
         return venta;
     }
@@ -92,8 +76,45 @@ public class ProductoDTO {
     private String descripcion;
     private float precioSalida;
     private String uRLFoto;
-    private String fechaSalida;
-    private String fechaFin;
+
+    private String fechaSalidaDia;
+
+    public String getFechaSalidaDia() {
+        return fechaSalidaDia;
+    }
+
+    public void setFechaSalidaDia(String fechaSalidaDia) {
+        this.fechaSalidaDia = fechaSalidaDia;
+    }
+
+    public String getFechaSalidaHora() {
+        return fechaSalidaHora;
+    }
+
+    public void setFechaSalidaHora(String fechaSalidaHora) {
+        this.fechaSalidaHora = fechaSalidaHora;
+    }
+
+    public String getFechaFinDia() {
+        return fechaFinDia;
+    }
+
+    public void setFechaFinDia(String fechaFinDia) {
+        this.fechaFinDia = fechaFinDia;
+    }
+
+    public String getFechaFinHora() {
+        return fechaFinHora;
+    }
+
+    public void setFechaFinHora(String fechaFinHora) {
+        this.fechaFinHora = fechaFinHora;
+    }
+
+    private String fechaSalidaHora;
+    private String fechaFinDia;
+    private String fechaFinHora;
+
     private VentaDTO venta;
     private String categoria;
     private Integer vendedor;

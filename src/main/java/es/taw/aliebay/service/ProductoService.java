@@ -6,6 +6,7 @@ import es.taw.aliebay.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -161,18 +162,19 @@ public class ProductoService {
         return vendedor;
     }
 
-    public void crearProductoVendedor(ProductoDTO producto){
+    public void crearProductoVendedor(ProductoDTO producto) throws ParseException {
         Producto p = new Producto();
-        p.setIdProducto(producto.getIdProducto());
         p.setTitulo(producto.getTitulo());
         p.setDescripcion(producto.getDescripcion());
         p.setPrecioSalida(producto.getPrecioSalida());
         p.setURLFoto(producto.getuRLFoto());
         p.setCategoria(categoriaRepository.findById(producto.getCategoria()).orElse(null));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        //p.setFechaSalida(sdf.format(producto.getFechaSalida()));
-        //p.setFechaFin(sdf.format(producto.getFechaFin()));
+        SimpleDateFormat fecha = new SimpleDateFormat  ("yyyy-MM-dd HH:mm");
+        p.setFechaSalida(fecha.parse(producto.getFechaSalidaDia() + " " + producto.getFechaSalidaHora()));
+        p.setFechaFin(fecha.parse(producto.getFechaFinDia() + " " + producto.getFechaFinHora()));
+
+        p.setIdVendedor(vendedorRepository.findById(producto.getVendedor()).orElse(null));
 
         productoRepository.save(p);
         productoRepository.flush();

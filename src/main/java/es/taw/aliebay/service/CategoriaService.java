@@ -2,9 +2,8 @@ package es.taw.aliebay.service;
 
 import es.taw.aliebay.dao.CategoriaRepository;
 import es.taw.aliebay.dto.CategoriaDTO;
-import es.taw.aliebay.dto.CompradorDTO;
 import es.taw.aliebay.entity.Categoria;
-import es.taw.aliebay.entity.Comprador;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

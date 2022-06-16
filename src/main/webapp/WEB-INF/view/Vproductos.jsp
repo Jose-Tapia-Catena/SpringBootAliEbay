@@ -33,8 +33,6 @@
 <%
 }else{
 %>
-<a href="/vendedor/productos/crear/">Crear Nuevo Producto</a><br/>
-
 <h2> Sus productos: </h2>
 <%
     if(!productosNoVendidos.isEmpty()){
@@ -64,8 +62,8 @@
             <input type="hidden" name="url" value="<%=p.getuRLFoto()%>">
             <td><input type="submit" value="Ver foto"/></td>
         </form>
-        <td><%= p.getFechaSalida() %></td>
-        <td><%= p.getFechaFin() %></td>
+        <td><%= p.getFechaSalidaDia() + " " + p.getFechaSalidaHora() %></td>
+        <td><%= p.getFechaFinDia() + " " + p.getFechaFinHora() %></td>
         <td><a href="/vendedor/productos/<%=p.getIdProducto() %>/borrar/">Borrar</a></td>
     </tr>
 
@@ -141,8 +139,8 @@
             <input type="hidden" name="url" value="<%=p.getuRLFoto()%>">
             <td><input type="submit" value="Ver foto"/></td>
         </form>
-        <td><%= p.getFechaSalida() %></td>
-        <td><%= p.getFechaFin() %></td>
+        <td><%= p.getFechaSalidaDia() + " " + p.getFechaSalidaHora() %></td>
+        <td><%= p.getFechaFinDia() + " " + p.getFechaFinHora() %></td>
         <td><a href="/vendedor/productos/<%=p.getIdProducto() %>/borrar/">Borrar</a></td>
     </tr>
 
@@ -154,6 +152,9 @@
         }
     }
 %>
+<br>
+<a href="/vendedor/productos/crear/">Crear Nuevo Producto</a><br/>
+
 
 
 </body>

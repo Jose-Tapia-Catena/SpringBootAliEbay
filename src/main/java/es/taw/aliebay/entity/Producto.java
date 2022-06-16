@@ -244,9 +244,12 @@ public class Producto implements Serializable {
         dto.setCategoria(this.categoria.getIdCategoria());
         dto.setVendedor(this.idVendedor.getIdUsuario());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        dto.setFechaSalida(sdf.format(this.fechaSalida));
-        dto.setFechaFin(sdf.format(this.fechaFin));
+        SimpleDateFormat date = new SimpleDateFormat  ("yyyy-MM-dd");
+        SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+        dto.setFechaSalidaDia(date.format(this.getFechaSalida()));
+        dto.setFechaSalidaHora(time.format(this.getFechaSalida()));
+        dto.setFechaFinDia(date.format(this.getFechaFin()));
+        dto.setFechaFinHora(time.format(this.getFechaFin()));
 
         if(this.venta != null)
             dto.setVenta(this.venta.toDTO());

@@ -153,7 +153,8 @@ public class AdminController extends AliEbaySessionController{
                 if(p.getVenta() == null){
                     Date date = new Date();
                     try{
-                        Date fin = sdf.parse(p.getFechaFin());
+                        SimpleDateFormat fecha = new SimpleDateFormat  ("yyyy-MM-dd HH:mm");
+                        Date fin  = fecha.parse(p.getFechaSalidaDia() + " " + p.getFechaSalidaHora());
                         if(date.before(fin)){
                             productosNoVendidos.add(p);
                         }else{
@@ -222,7 +223,8 @@ public class AdminController extends AliEbaySessionController{
                 if(p.getVenta() == null){
                     Date date = new Date();
                     try{
-                        Date fin = sdf.parse(p.getFechaFin());
+                        SimpleDateFormat fecha = new SimpleDateFormat  ("yyyy-MM-dd HH:mm");
+                        Date fin  = fecha.parse(p.getFechaSalidaDia() + " " + p.getFechaSalidaHora());
                         if(date.before(fin)){
                             productosNoVendidos.add(p);
                         }else{

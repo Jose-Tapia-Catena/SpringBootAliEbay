@@ -1,8 +1,10 @@
 package es.taw.aliebay.Controller;
 
+import es.taw.aliebay.dto.CategoriaDTO;
 import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.dto.UsuarioDTO;
 import es.taw.aliebay.entity.Producto;
+import es.taw.aliebay.service.CategoriaService;
 import es.taw.aliebay.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,16 @@ public class VendedorController extends AliEbaySessionController{
 
     private ProductoService productoService;
 
+    private CategoriaService categoriaService;
+
+    public CategoriaService getCategoriaService() {
+        return categoriaService;
+    }
+    @Autowired
+    public void setCategoriaService(CategoriaService categoriaService) {
+        this.categoriaService = categoriaService;
+    }
+
     //Productos vendedor
     @GetMapping("/vendedor/")
     public String doVerProductosVendedor(HttpSession session, Model model) {
@@ -51,7 +63,8 @@ public class VendedorController extends AliEbaySessionController{
                 if (p.getVenta() == null) {
                     Date date = new Date();
                     try {
-                        Date fin = sdf.parse(p.getFechaFin());
+                        SimpleDateFormat fecha = new SimpleDateFormat  ("yyyy-MM-dd HH:mm");
+                        Date fin  = fecha.parse(p.getFechaSalidaDia() + " " + p.getFechaSalidaHora());
                         if (date.before(fin)) {
                             productosNoVendidos.add(p);
                         } else {
@@ -79,13 +92,15 @@ public class VendedorController extends AliEbaySessionController{
     public String doCrearProductoVendedor(HttpSession session, Model model){
         ProductoDTO p = new ProductoDTO();
         model.addAttribute("producto", p);
+        List<CategoriaDTO> categorias = categoriaService.listarCategorias();
+        model.addAttribute("categorias", categorias);
         return "nuevoProducto";
     }
 
     @PostMapping("vendedor/productos/guardar/")
-    public String doGuardarProductoVendedor(HttpSession session, Model model,
-                                          @ModelAttribute("producto") ProductoDTO producto){
+    public String doGuardarProductoVendedor(HttpSession session,
+                                          @ModelAttribute("producto") ProductoDTO producto) throws ParseException {
         productoService.crearProductoVendedor(producto);
-        return "redirect:/";
+        return "redirect:/vendedor/";
     }
 }

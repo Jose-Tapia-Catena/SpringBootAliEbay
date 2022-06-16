@@ -1,6 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.taw.aliebay.dto.ProductoDTO" %>
 <%@ page import="es.taw.aliebay.dto.UsuarioDTO" %>
+<%@ page import="es.taw.aliebay.dto.CategoriaDTO" %>
+<%@ page import="java.util.List" %>
 <%--
 
 --%>
@@ -12,13 +14,13 @@
 </head>
 <body>
 <%
+    List<CategoriaDTO> categorias = (List) request.getAttribute("categorias");
     UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
 %>
-
 <h1>Datos del producto</h1>
 <%--@elvariable id="producto" type="es.taw.aliebay.dto.ProductoDTO"--%>
-<form:form method="post" action="vendedor/productos/guardar/" modelAttribute="producto">
-    <form:hidden path="idProducto"/>
+<form:form method="post" action="/vendedor/productos/guardar/" modelAttribute="producto">
+    <form:hidden path="vendedor" value="<%=user.getIdUsuario()%>"/>
     <table>
         <tr>
             <td>Titulo:</td>
@@ -38,16 +40,23 @@
         </tr>
         <tr>
             <td>Fecha de salida:</td>
-            <td><form:input path="fechaSalida" type="text" /></td>
+            <td><form:input type="date" path="fechaSalidaDia" /></td>
+            <td><form:input type="time" path="fechaSalidaHora"/></td>
         </tr>
         <tr>
             <td>Fecha de fin:</td>
-            <td><form:input path="fechaFin" type="text" /></td>
+            <td><form:input type="date" path="fechaFinDia" /></td>
+            <td><form:input type="time" path="fechaFinHora"/></td>
         </tr>
         <tr>
             <td>Categoria:</td>
-            <td><form:input path="categoria" type="text" /></td>
+            <td>
+                <form:select path="categoria">
+                    <form:options items="${categorias}" itemLabel="idCategoria" itemValue="idCategoria"/>
+                </form:select>
+            </td>
         </tr>
+
         <tr>
             <td><form:button>Crear producto</form:button></td>
         </tr>
