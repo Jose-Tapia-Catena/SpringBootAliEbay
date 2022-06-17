@@ -11,12 +11,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <%
         UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
-        String cabecera  = "";
+        String cabecera  = "cabecera";
         if (user.getTipoUsuario().equals("comprador")){
-            cabecera = "Favorito";
+            cabecera += "Foto";
         }
+        cabecera += ".jsp";
     %>
-    <jsp:include page="cabecera.jsp"/>
+    <jsp:include page= "<%= cabecera%>"/>
 
     <title>Foto</title>
 </head>

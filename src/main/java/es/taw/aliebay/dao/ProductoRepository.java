@@ -24,6 +24,6 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     @Query("SELECT p FROM Producto p WHERE p.fechaFin > cast(now() as date)")
     List<Producto> findProductosDisponibles();
 
-    @Query("SELECT p FROM Producto p WHERE p.pujaList.size > 0 AND p.fechaFin > cast(now() as date)")
+    @Query("SELECT p FROM Producto p WHERE p.pujaList.size > 0 AND p.fechaFin < cast(now() as date)")
     List<Producto> getProductosConPujaYFinalizados();
 }

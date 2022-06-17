@@ -47,7 +47,8 @@
             }
     %>
     <tr>
-        <form method="post" action="/verFotoComprador/">
+        <form method="post" action="/verFoto/">
+            <input type="hidden" name="previous" value="/comprador/">
             <input type="hidden" name="url" value="<%=p.getuRLFoto()%>">
             <td><input type="submit" value="Ver foto"/></td>
         </form>

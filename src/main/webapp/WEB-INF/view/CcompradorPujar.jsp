@@ -26,7 +26,8 @@
 <%--@elvariable id="usuario" type="es.taw.aliebay.dto.UsuarioDTO"--%>
     <table>
         <tr>
-            <td><form method="post" action="/verFotoComprador/">
+            <td><form method="post" action="/verFoto/">
+                <input type="hidden" name="previous" value="/comprador/productos/pujar/<%=p.getIdProducto() %>/">
                 <input type="hidden" name="url" value="<%=p.getuRLFoto()%>">
                 Foto: <input type="submit" value="Ver foto"/>
             </form></td>

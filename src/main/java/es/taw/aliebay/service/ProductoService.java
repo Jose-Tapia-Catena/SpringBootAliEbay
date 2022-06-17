@@ -3,6 +3,7 @@ package es.taw.aliebay.service;
 import es.taw.aliebay.dao.*;
 import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.entity.*;
+import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -155,12 +156,17 @@ public class ProductoService {
         if(p.getVenta() != null)
             this.ventaRepository.delete(p.getVenta());
 
-        //Para todos los mensajes que lo tenian lo quitamos
-        for(Mensaje m: p.getMensajeList()){
-            List<Producto> prodsMe = m.getProductoList();
-            prodsMe.remove(p);
-            m.setProductoList(prodsMe);
-            mensajeRepository.save(m);
+        try {
+            List<Mensaje> mensajes = p.getMensajeList();
+            //Para todos los mensajes que lo tenian lo quitamos
+            for (Mensaje m : mensajes) {
+                List<Producto> prodsMe = m.getProductoList();
+                prodsMe.remove(p);
+                m.setProductoList(prodsMe);
+                mensajeRepository.save(m);
+            }
+        } catch(LazyInitializationException e) {
+            
         }
 
         //Eliminamos todas las pujas que tenia el producto
@@ -215,8 +221,6 @@ public class ProductoService {
                 venta.setPrecioVenta(puja.getPuja());
 
                 ventaRepository.save(venta);
-
-
 
                 List<Venta> ventas = comprador.getVentaList();
                 ventas.add(venta);

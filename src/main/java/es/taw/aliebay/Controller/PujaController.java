@@ -64,7 +64,7 @@ public class PujaController extends AliEbaySessionController{
 
             ProductoDTO p = productoService.getProductoByID(puja.getProducto());
 
-            if(puja.getPuja() < p.getPrecioSalida()) {
+            if(puja.getPuja() == null || puja.getPuja() < p.getPrecioSalida()) {
                 model.addAttribute("productoDTO", p);
                 model.addAttribute("puja", new PujaDTO());
                 model.addAttribute("error", "La puja debe ser mayor que el precio de salida");
@@ -83,7 +83,7 @@ public class PujaController extends AliEbaySessionController{
                 }
             }
 
-        }else{
+        } else{
             return "redirect:/login/error/";
         }
     }

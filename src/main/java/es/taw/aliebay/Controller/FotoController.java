@@ -10,22 +10,12 @@ import javax.servlet.http.HttpSession;
 public class FotoController extends AliEbaySessionController{
     @PostMapping("/verFoto/")
     public String doVerFoto(HttpSession session,Model model,
-                            @RequestParam("url") String url){
+                            @RequestParam("url") String url,
+                            @RequestParam("previous") String previous){
         if(this.comprobarSesion(session)){
             model.addAttribute("url",url);
+            model.addAttribute("previous", previous);
             return "verFoto";
-        }else{
-            return "redirect:/login/error/";
-        }
-
-    }
-
-    @PostMapping("/verFotoComprador/")
-    public String doVerFotoComprador(HttpSession session,Model model,
-                                     @RequestParam("url") String url){
-        if(this.comprobarSesion(session)){
-            model.addAttribute("url",url);
-            return "verFotoComprador";
         }else{
             return "redirect:/login/error/";
         }

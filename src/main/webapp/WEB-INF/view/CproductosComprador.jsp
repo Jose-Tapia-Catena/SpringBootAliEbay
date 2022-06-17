@@ -45,6 +45,7 @@
             %>
     <tr>
         <form method="post" action="/verFoto/">
+            <input type="hidden" name="previous" value="/comprador/productos/">
             <input type="hidden" name="url" value="<%=pc.getuRLFoto()%>">
             <td><input type="submit" value="Ver foto"/></td>
         </form>
