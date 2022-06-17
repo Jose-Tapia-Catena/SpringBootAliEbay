@@ -3,8 +3,6 @@ package es.taw.aliebay.Controller;
 import es.taw.aliebay.dto.CompradorDTO;
 import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.dto.UsuarioDTO;
-import es.taw.aliebay.entity.Comprador;
-import es.taw.aliebay.entity.Producto;
 import es.taw.aliebay.service.CompradorService;
 import es.taw.aliebay.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;

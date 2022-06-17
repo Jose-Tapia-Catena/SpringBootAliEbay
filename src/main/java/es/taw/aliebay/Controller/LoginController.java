@@ -1,6 +1,7 @@
 package es.taw.aliebay.Controller;
 
 import es.taw.aliebay.dto.UsuarioDTO;
+import es.taw.aliebay.service.ProductoService;
 import es.taw.aliebay.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +23,20 @@ public class LoginController {
 
     private UsuarioService usuarioService;
 
+
+    public ProductoService getProductoService() {
+        return productoService;
+    }
+    @Autowired
+    public void setProductoService(ProductoService productoService) {
+        this.productoService = productoService;
+    }
+
+    private ProductoService productoService;
+
     @GetMapping("/")
     public String doInit(Model model){
-        usuarioService.ajustarVentas();
+        productoService.ajustarVentas();
         model.addAttribute("usuario",new UsuarioDTO());
         return "login";
     }

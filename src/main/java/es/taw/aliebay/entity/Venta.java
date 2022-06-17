@@ -10,18 +10,7 @@ import es.taw.aliebay.dto.VentaDTO;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -53,7 +42,7 @@ public class Venta implements Serializable {
     @ManyToOne(optional = false)
     private Comprador idComprador;
     @JoinColumn(name = "idproducto", referencedColumnName = "idproducto", insertable = false, updatable = false)
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade =  CascadeType.ALL)
     private Producto producto;
 
     public Venta() {

@@ -155,21 +155,4 @@ public class UsuarioService {
         return u.toDTO();
     }
 
-    public void ajustarVentas() {
-        List<Producto> productosFinalizados = productoRepository.getProductosConPujaYFinalizados();
-        for(Producto p : productosFinalizados) {
-            /*
-            Puja puja = p.getPujaList().get(p.getPujaList().size() - 1);
-            Comprador comprador = compradorRepository.findById(puja.getIdComprador().getIdUsuario()).orElse(null);
-
-            Venta venta = new Venta();
-            venta.setIdProducto(puja.getIdProducto().getIdProducto());
-            venta.setIdComprador(comprador);
-            venta.setProducto(puja.getIdProducto());
-            venta.setFecha(p.getFechaFin());
-            venta.setPrecioVenta(puja.getPuja());
-            ventaRepository.save(venta);
-             */
-        }
-    }
 }

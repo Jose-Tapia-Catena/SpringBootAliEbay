@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -197,5 +198,42 @@ public class ProductoService {
         Comprador comprador = compradorRepository.findById(idUsuario).orElse(null);
         List<Producto> productos = comprador.getProductoList();
         return this.listaEntityADTO(productos);
+    }
+
+    public void ajustarVentas() {
+        List<Producto> productosFinalizados = productoRepository.getProductosConPujaYFinalizados();
+        for(Producto p : productosFinalizados) {
+            if(p.getVenta() == null){
+                Puja puja = maxLista(p.getPujaList());
+                Comprador comprador = compradorRepository.findById(puja.getIdComprador().getIdUsuario()).orElse(null);
+
+                Venta venta = new Venta();
+                venta.setIdProducto(puja.getIdProducto().getIdProducto());
+                venta.setProducto(p);
+                venta.setIdComprador(comprador);
+                venta.setFecha(p.getFechaFin());
+                venta.setPrecioVenta(puja.getPuja());
+
+                ventaRepository.save(venta);
+
+
+
+                List<Venta> ventas = comprador.getVentaList();
+                ventas.add(venta);
+                comprador.setVentaList(ventas);
+
+                p.setVenta(venta);
+            }
+        }
+    }
+
+    private Puja maxLista(List<Puja> pujas){
+        Puja puja = pujas.get(0);
+        for(int i=1;i< pujas.size();i++){
+            if(puja.getPuja() < pujas.get(i).getPuja())
+                puja = pujas.get(i);
+        }
+
+        return puja;
     }
 }
