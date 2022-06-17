@@ -17,9 +17,9 @@
     <title>Productos</title>
 </head>
 <body>
-<%--
+
 <jsp:include page="/WEB-INF/view/cabeceraVendedor.jsp" />
---%>
+
 
 <%
     List<ProductoDTO> productosVendidos = (List)request.getAttribute("productosVendidos");
@@ -29,7 +29,7 @@
 
     if(productosVendidos.isEmpty() && productosNoVendidos.isEmpty() && productosNoVendidosTerminados.isEmpty()){
 %>
-<h2> Usted no dispone de ningún producto</h2>
+<h2> Usted no dispone de ningún producto en venta</h2>
 <%
 }else{
 %>
@@ -49,6 +49,7 @@
         <th>Fecha de salida</th>
         <th>Fecha de fin:</th>
         <th></th><!-- Borrar -->
+        <th></th><!-- Editar -->
     </tr>
     <%
         for (ProductoDTO p: productosNoVendidos) {
@@ -65,6 +66,7 @@
         <td><%= p.getFechaSalidaDia() + " " + p.getFechaSalidaHora() %></td>
         <td><%= p.getFechaFinDia() + " " + p.getFechaFinHora() %></td>
         <td><a href="/vendedor/productos/<%=p.getIdProducto() %>/borrar/">Borrar</a></td>
+        <td><a href="/vendedor/productos/<%=p.getIdProducto() %>/editar/">Editar</a></td>
     </tr>
 
     <%
@@ -126,6 +128,7 @@
         <th>Fecha de salida</th>
         <th>Fecha de fin:</th>
         <th></th><!-- Borrar -->
+        <th></th><!-- Editar -->
     </tr>
     <%
         for (ProductoDTO p: productosNoVendidosTerminados) {
@@ -142,6 +145,7 @@
         <td><%= p.getFechaSalidaDia() + " " + p.getFechaSalidaHora() %></td>
         <td><%= p.getFechaFinDia() + " " + p.getFechaFinHora() %></td>
         <td><a href="/vendedor/productos/<%=p.getIdProducto() %>/borrar/">Borrar</a></td>
+        <td><a href="/vendedor/productos/<%=p.getIdProducto() %>/editar/">Editar</a></td>
     </tr>
 
     <%

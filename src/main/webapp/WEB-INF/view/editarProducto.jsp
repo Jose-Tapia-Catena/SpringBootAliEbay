@@ -3,15 +3,16 @@
 <%@ page import="es.taw.aliebay.dto.UsuarioDTO" %>
 <%@ page import="es.taw.aliebay.dto.CategoriaDTO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.taw.aliebay.dao.ProductoRepository" %>
+<%@ page import="es.taw.aliebay.entity.Producto" %>
 <%--
 
 --%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Crear nuevo producto</title>
+    <title>Editar producto</title>
 </head>
 <body>
 
@@ -19,38 +20,40 @@
 
 <%
     List<CategoriaDTO> categorias = (List) request.getAttribute("categorias");
-    UsuarioDTO user = (UsuarioDTO) session.getAttribute("user");
+    Integer vendedor = (Integer)request.getAttribute("vendedor");
+    Integer prod = (Integer) request.getAttribute("idProducto");
+    ProductoDTO producto = (ProductoDTO) request.getAttribute("producto");
 %>
 <h1>Datos del producto</h1>
 <%--@elvariable id="producto" type="es.taw.aliebay.dto.ProductoDTO"--%>
-<form:form method="post" action="/vendedor/productos/guardar/" modelAttribute="producto">
-    <form:hidden path="vendedor" value="<%=user.getIdUsuario()%>"/>
+<form:form method="post" action="/vendedor/productos/<%=prod%>>/editar/guardar/" modelAttribute="producto">
+    <form:hidden path="vendedor" value="<%=vendedor%>"/>
     <table>
         <tr>
             <td>Titulo:</td>
-            <td><form:input path="titulo" type="text"/></td>
+            <td><form:input path="titulo" type="text" value="<%=producto.getTitulo()%>"/></td>
         </tr>
         <tr>
             <td>Descripción:</td>
-            <td><form:input path="descripcion" type="text"/></td>
+            <td><form:input path="descripcion" type="text" value="<%=producto.getDescripcion()%>"/></td>
         </tr>
         <tr>
             <td>Precio de salida:</td>
-            <td><form:input path="precioSalida" type="number" /></td>
+            <td><form:input path="precioSalida" type="number" value="<%=producto.getPrecioSalida()%>"/></td>
         </tr>
         <tr>
             <td>URL de la foto:</td>
-            <td><form:input path="uRLFoto" type="text"/></td>
+            <td><form:input path="uRLFoto" type="text" value="<%=producto.getuRLFoto()%>"/></td>
         </tr>
         <tr>
             <td>Fecha de salida:</td>
-            <td><form:input type="date" path="fechaSalidaDia" /></td>
-            <td><form:input type="time" path="fechaSalidaHora"/></td>
+            <td><form:input type="date" path="fechaSalidaDia" value="<%=producto.getFechaSalidaDia()%>"/></td>
+            <td><form:input type="time" path="fechaSalidaHora" value="<%=producto.getFechaSalidaHora()%>"/></td>
         </tr>
         <tr>
             <td>Fecha de fin:</td>
-            <td><form:input type="date" path="fechaFinDia" /></td>
-            <td><form:input type="time" path="fechaFinHora"/></td>
+            <td><form:input type="date" path="fechaFinDia" value="<%=producto.getFechaFinDia()%>" /></td>
+            <td><form:input type="time" path="fechaFinHora" value="<%=producto.getFechaFinHora()%>"/></td>
         </tr>
         <tr>
             <td>Categoria:</td>
@@ -62,7 +65,7 @@
         </tr>
 
         <tr>
-            <td><form:button>Crear producto</form:button></td>
+            <td><form:button>Editar Producto</form:button></td>
         </tr>
     </table>
 </form:form>

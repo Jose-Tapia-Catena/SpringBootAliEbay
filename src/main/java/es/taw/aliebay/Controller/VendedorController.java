@@ -3,9 +3,10 @@ package es.taw.aliebay.Controller;
 import es.taw.aliebay.dto.CategoriaDTO;
 import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.dto.UsuarioDTO;
-import es.taw.aliebay.entity.Producto;
+import es.taw.aliebay.entity.Puja;
 import es.taw.aliebay.service.CategoriaService;
 import es.taw.aliebay.service.ProductoService;
+import es.taw.aliebay.dao.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,8 @@ public class VendedorController extends AliEbaySessionController{
     }
 
     private ProductoService productoService;
+
+    private ProductoRepository productoRepository;
 
     private CategoriaService categoriaService;
 
@@ -103,4 +106,32 @@ public class VendedorController extends AliEbaySessionController{
         productoService.crearProductoVendedor(producto);
         return "redirect:/vendedor/";
     }
+
+    @GetMapping("/vendedor/productos/{idProducto}/borrar/")
+    public String doBorrarProductoVendedor(HttpSession session, Model model,
+                                           @PathVariable("idProducto") Integer idProducto){
+        productoService.borrarProductoVendedor(idProducto);
+        return "redirect:/vendedor/";
+    }
+
+    @GetMapping("/vendedor/productos/{idProducto}/editar/")
+    public String doEditarProductoVendedor(HttpSession session, Model model,
+                                           @PathVariable("idProducto") Integer idProducto){
+        ProductoDTO p = productoService.getProductoByID(idProducto);
+        Integer vendedor = p.getVendedor();
+        model.addAttribute("vendedor", vendedor);
+        model.addAttribute("producto", p);
+        List<CategoriaDTO> categorias = categoriaService.listarCategorias();
+        model.addAttribute("categorias", categorias);
+
+        return "editarProducto";
+    }
+
+    @PostMapping("/vendedor/productos/{idProducto}/editar/guardar/")
+    public String doEditarProductoVendedorGuardar(HttpSession session,
+                                            @ModelAttribute("producto") ProductoDTO producto) throws ParseException {
+        productoService.editarProducto(producto);
+        return "redirect:/vendedor/";
+    }
+
 }

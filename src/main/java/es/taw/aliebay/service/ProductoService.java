@@ -206,6 +206,7 @@ public class ProductoService {
         return this.listaEntityADTO(productos);
     }
 
+<<<<<<< Updated upstream
     public void ajustarVentas() {
         List<Producto> productosFinalizados = productoRepository.getProductosConPujaYFinalizados();
         for(Producto p : productosFinalizados) {
@@ -239,5 +240,24 @@ public class ProductoService {
         }
 
         return puja;
+=======
+    public void editarProducto(ProductoDTO producto) throws ParseException {
+        Producto p = new Producto();
+        p.setIdProducto(producto.getIdProducto());
+        p.setTitulo(producto.getTitulo());
+        p.setDescripcion(producto.getDescripcion());
+        p.setPrecioSalida(producto.getPrecioSalida());
+        p.setURLFoto(producto.getuRLFoto());
+        p.setCategoria(categoriaRepository.findById(producto.getCategoria()).orElse(null));
+
+        SimpleDateFormat fecha = new SimpleDateFormat  ("yyyy-MM-dd HH:mm");
+        p.setFechaSalida(fecha.parse(producto.getFechaSalidaDia() + " " + producto.getFechaSalidaHora()));
+        p.setFechaFin(fecha.parse(producto.getFechaFinDia() + " " + producto.getFechaFinHora()));
+
+        p.setIdVendedor(vendedorRepository.findById(producto.getVendedor()).orElse(null));
+
+        productoRepository.save(p);
+        productoRepository.flush();
+>>>>>>> Stashed changes
     }
 }
