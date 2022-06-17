@@ -21,13 +21,13 @@
 <%
     List<CategoriaDTO> categorias = (List) request.getAttribute("categorias");
     Integer vendedor = (Integer)request.getAttribute("vendedor");
-    Integer prod = (Integer) request.getAttribute("idProducto");
     ProductoDTO producto = (ProductoDTO) request.getAttribute("producto");
 %>
 <h1>Datos del producto</h1>
 <%--@elvariable id="producto" type="es.taw.aliebay.dto.ProductoDTO"--%>
-<form:form method="post" action="/vendedor/productos/<%=prod%>/editar/guardar/" modelAttribute="producto">
+<form:form method="post" action="/vendedor/productos/editar/guardar/" modelAttribute="producto">
     <form:hidden path="vendedor" value="<%=vendedor%>"/>
+    <form:hidden path="idProducto" value="<%=producto.getIdProducto()%>"/>
     <table>
         <tr>
             <td>Titulo:</td>

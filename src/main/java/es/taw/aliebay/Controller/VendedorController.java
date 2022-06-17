@@ -68,7 +68,7 @@ public class VendedorController extends AliEbaySessionController{
                     Date date = new Date();
                     try {
                         SimpleDateFormat fecha = new SimpleDateFormat  ("yyyy-MM-dd HH:mm");
-                        Date fin  = fecha.parse(p.getFechaSalidaDia() + " " + p.getFechaSalidaHora());
+                        Date fin  = fecha.parse(p.getFechaFinDia() + " " + p.getFechaFinHora());
                         if (date.before(fin)) {
                             productosNoVendidos.add(p);
                         } else {
@@ -128,7 +128,7 @@ public class VendedorController extends AliEbaySessionController{
         return "editarProducto";
     }
 
-    @PostMapping("/vendedor/productos/{idProducto}/editar/guardar/")
+    @PostMapping("/vendedor/productos/editar/guardar/")
     public String doEditarProductoVendedorGuardar(HttpSession session,
                                             @ModelAttribute("producto") ProductoDTO producto) throws ParseException {
         productoService.editarProducto(producto);
