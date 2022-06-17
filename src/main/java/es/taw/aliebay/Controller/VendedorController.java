@@ -4,6 +4,7 @@ import es.taw.aliebay.dto.CategoriaDTO;
 import es.taw.aliebay.dto.ProductoDTO;
 import es.taw.aliebay.dto.UsuarioDTO;
 import es.taw.aliebay.entity.Puja;
+import es.taw.aliebay.entity.Producto;
 import es.taw.aliebay.service.CategoriaService;
 import es.taw.aliebay.service.ProductoService;
 import es.taw.aliebay.dao.ProductoRepository;

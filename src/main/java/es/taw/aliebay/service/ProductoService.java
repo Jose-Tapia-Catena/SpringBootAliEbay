@@ -206,7 +206,7 @@ public class ProductoService {
         return this.listaEntityADTO(productos);
     }
 
-<<<<<<< Updated upstream
+
     public void ajustarVentas() {
         List<Producto> productosFinalizados = productoRepository.getProductosConPujaYFinalizados();
         for(Producto p : productosFinalizados) {
@@ -232,15 +232,15 @@ public class ProductoService {
         }
     }
 
-    private Puja maxLista(List<Puja> pujas){
+    private Puja maxLista(List<Puja> pujas) {
         Puja puja = pujas.get(0);
-        for(int i=1;i< pujas.size();i++){
-            if(puja.getPuja() < pujas.get(i).getPuja())
+        for (int i = 1; i < pujas.size(); i++) {
+            if (puja.getPuja() < pujas.get(i).getPuja())
                 puja = pujas.get(i);
         }
 
         return puja;
-=======
+    }
     public void editarProducto(ProductoDTO producto) throws ParseException {
         Producto p = new Producto();
         p.setIdProducto(producto.getIdProducto());
@@ -258,6 +258,5 @@ public class ProductoService {
 
         productoRepository.save(p);
         productoRepository.flush();
->>>>>>> Stashed changes
     }
 }
