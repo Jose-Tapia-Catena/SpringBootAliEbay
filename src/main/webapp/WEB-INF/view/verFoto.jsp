@@ -14,6 +14,8 @@
         String cabecera  = "cabecera";
         if (user.getTipoUsuario().equals("comprador")){
             cabecera += "Foto";
+        }else if (user.getTipoUsuario().equals("vendedor")){
+            cabecera += "Vendedor";
         }
         cabecera += ".jsp";
     %>
