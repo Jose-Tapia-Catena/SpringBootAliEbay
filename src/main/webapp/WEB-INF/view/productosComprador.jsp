@@ -7,9 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="java.util.List"%>
-<%@ page import="es.taw.aliebay.dto.VentaDTO" %>
 <%@ page import="es.taw.aliebay.dto.ProductoDTO" %>
-<%@ page import="es.taw.aliebay.dto.UsuarioDTO" %>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
